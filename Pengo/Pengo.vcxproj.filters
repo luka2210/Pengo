@@ -21,6 +21,9 @@
     <ClInclude Include="Glut.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Border.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="glut32.lib">
@@ -29,6 +32,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Border.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

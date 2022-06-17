@@ -3,10 +3,10 @@
 #include <stdlib.h>		
 #include "Glut.h"
 #include "Game.h"
+#include "Border.h"
 
-
-const double Xmin = 0.0, Xmax = 15.0;
-const double Ymin = 0.0, Ymax = 20.0;
+const double Xmin = 0.0, Xmax = 14.0;
+const double Ymin = 0.0, Ymax = 18.0;
 
 
 void myKeyboardFunc( unsigned char key, int x, int y ) {
@@ -24,12 +24,8 @@ void drawScene(void){
 	glMatrixMode(GL_MODELVIEW);		
 	glLoadIdentity();
 
-	glTranslatef(1.0, 1.0, 1.0);
-	glBegin(GL_TRIANGLES);
-	glVertex3f(0.0, 0.0, 0.0);
-	glVertex3f(1.0, 1.0, 0.0);
-	glVertex3f(0.0, 1.0, 0.0);
-	glEnd();
+	Border b = Border(0.0, 1.0, Xmax, 16.0, 0.5);
+	b.draw();
 
     glFlush();
     glutSwapBuffers();
@@ -77,7 +73,7 @@ int main( int argc, char** argv ) {
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGB | GLUT_DEPTH );
 
 	glutInitWindowPosition(10, 60);
-	glutInitWindowSize(565, 720);
+	glutInitWindowSize(560, 720);
 	glutCreateWindow("Pengo");
 
     initRendering();

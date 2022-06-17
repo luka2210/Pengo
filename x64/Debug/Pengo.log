@@ -12,4 +12,4 @@ Game.obj : error LNK2019: unresolved external symbol __imp_glutReshapeFunc refer
 Game.obj : error LNK2019: unresolved external symbol __imp_glutKeyboardFunc referenced in function main
 Game.obj : error LNK2019: unresolved external symbol __imp_glutSpecialFunc referenced in function main
 glut32.lib : warning LNK4272: library machine type 'x86' conflicts with target machine type 'x64'
-C:\Users\PC\Desktop\Pengo\x64\Debug\Pengo.exe : fatal error LNK1120: 12 unresolved externals
+C:\Users\lukam\source\repos\Pengo\x64\Debug\Pengo.exe : fatal error LNK1120: 12 unresolved externals

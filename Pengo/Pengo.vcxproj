@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Border.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Glut.h" />
   </ItemGroup>
@@ -146,6 +147,7 @@
     <Library Include="glut32.lib" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Border.cpp" />
     <ClCompile Include="Game.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
