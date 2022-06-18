@@ -142,6 +142,7 @@
     <ClInclude Include="Border.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Glut.h" />
+    <ClInclude Include="RgbImage.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="glut32.lib" />
@@ -149,6 +150,7 @@
   <ItemGroup>
     <ClCompile Include="Border.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="RgbImage.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
