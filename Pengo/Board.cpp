@@ -18,8 +18,9 @@ void Board::draw() {
 	glEnable(GL_TEXTURE_2D);
 	//glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	LoadTexture::image(Block::getImage());
-	for (Block block : blocks)
+	for (Block &block : blocks)
 		block.draw();
 	glDisable(GL_TEXTURE_2D);
-	pengo.draw();
 }
+
+

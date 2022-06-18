@@ -2,7 +2,7 @@
 #include "RgbImage.h"
 
 class Block {
-private:
+public:
 	static RgbImage image;
 	static double width, height;
 	static double offsetX, offsetY;

@@ -59,14 +59,24 @@ Pengo::Pengo(int i, int j) {
 void Pengo::draw() {
 	double posX = j + offsetX;
 	double posY = i + offsetY;
-	if (moveLeft)
+	
+	switch (orientation) {
+	case 1:
 		posX -= distance;
-	if (moveRight)
+		break;
+	case 2:
+		posY -= distance;
+		break;
+	case 3:
 		posX += distance;
-	if (moveUp)
+		break;
+	case 4:
 		posY += distance;
-	if (moveDown)
-		posY += distance;
+		break;
+	default:
+		posY -= distance;
+		break;
+	}
 
 	glEnable(GL_TEXTURE_2D);
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);

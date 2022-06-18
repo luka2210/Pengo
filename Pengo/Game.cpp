@@ -4,26 +4,14 @@
 #include "Glut.h"
 #include "Game.h"
 #include "Board.h"
+#include <iostream>
+
+using namespace std;
 
 const double Xmin = 0.0, Xmax = 14.0;
 const double Ymin = 0.0, Ymax = 18.0;
 
-Board* board;
-
-void myKeyboardFunc( unsigned char key, int x, int y ) {
-
-}
-
-void mySpecialKeyFunc( int key, int x, int y ) {
-	
-}
-
-void timerLoop(int value) {
-	glutTimerFunc(2000000000, timerLoop, 0);
-}
-
-void initializeBoard(void) {
-	short blockCoords[15][13] = { {0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0},
+short blockCoords[15][13] = {     {0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0},
 								  {0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0},
 								  {0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0},
 								  {0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0},
@@ -38,7 +26,100 @@ void initializeBoard(void) {
 								  {0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0},
 								  {0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0},
 								  {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0} };
-	board = new Board(blockCoords, 0, 0);
+Board board = Board(blockCoords, 0, 0);
+Pengo pengo = Pengo(8, 6);
+
+void myKeyboardFunc( unsigned char key, int x, int y ) {
+
+}
+
+void mySpecialKeyFunc( int key, int x, int y ) {
+	switch (key) {
+	case GLUT_KEY_LEFT:
+		turnPengo(1);
+		break;
+	case GLUT_KEY_DOWN:
+		turnPengo(2);
+		break;
+	case GLUT_KEY_RIGHT:
+		turnPengo(3);
+		break;
+	case GLUT_KEY_UP:
+		turnPengo(4);
+		break;
+	}
+}
+
+void turnPengo(int direction) {
+	if (pengo.moving || pengo.pushing)
+		return;
+	pengo.orientation = direction;
+	pengo.stepPos = !pengo.stepPos;
+
+	switch (direction) {
+	case 1:
+		if (pengo.j == 0)
+			return;
+		for (Block& block : board.blocks)
+			if (block.i == pengo.i && block.j == pengo.j - 1)
+				return;
+		break;
+	case 2:
+		if (pengo.i == 0)
+			return;
+		for (Block& block : board.blocks)
+			if (block.j == pengo.j && block.i == pengo.i - 1)
+				return;
+		break;
+	case 3:
+		if (pengo.j == 12)
+			return;
+		for (Block& block : board.blocks)
+			if (block.i == pengo.i && block.j == pengo.j + 1)
+				return;
+		break;
+	case 4: 
+		if (pengo.i == 14)
+			return;
+		for (Block& block : board.blocks)
+			if (block.j == pengo.j && block.i == pengo.i + 1)
+				return;
+		break;
+	default:
+		return;
+	}
+
+	pengo.moving = true;
+	movePengo(direction);
+}
+
+void movePengo(int direction) {
+	pengo.distance += pengo.speed;
+	pengo.stepPos = !pengo.stepPos;
+	if (pengo.distance >= 1) {
+		switch (direction) {
+		case 1:
+			pengo.j--;
+			break;
+		case 2:
+			pengo.i--;
+			break;
+		case 3:
+			pengo.j++;
+			break;
+		case 4:
+			pengo.i++;
+			break;
+		}
+		pengo.moving = false;
+		pengo.distance = 0;
+		return;
+	}
+	glutTimerFunc(20, movePengo, direction);
+}
+
+void initializeBoard(void) {
+	
 }
 
 void drawScene(void){
@@ -48,9 +129,8 @@ void drawScene(void){
 	glMatrixMode(GL_MODELVIEW);		
 	glLoadIdentity();
 
-	board->draw();
-
-
+	board.draw();
+	pengo.draw();
 
     glFlush();
     glutSwapBuffers();
@@ -108,7 +188,6 @@ int main( int argc, char** argv ) {
 	glutSpecialFunc(mySpecialKeyFunc);
 	glutReshapeFunc(resizeWindow);
 	glutDisplayFunc(drawScene);
-	glutTimerFunc(20, timerLoop, 0);
 
 	glutMainLoop();
 

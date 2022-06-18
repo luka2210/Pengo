@@ -8,17 +8,15 @@ private:
 	static RgbImage pengoPushUp, pengoPushDown, pengoPushLeft, pengoPushRight;
 	static double width, height;
 	static double offsetX, offsetY;
+	RgbImage& pickImage();
 
+public:
 	int i, j;
 	int orientation = 2;
-	bool moveLeft = false, moveDown = false, moveRight = false, moveUp = false;
-	bool pushing = false;
+	bool moving = false, pushing = false;
 	double distance = 0;
-	double speed = 0.1;
+	double speed = 0.5;
 	bool stepPos = true;
-
-	RgbImage& pickImage();
-public:
 	Pengo(int i, int j);
 	void draw();
 };
