@@ -48,7 +48,7 @@ void drawScene(void){
 
 	//tekstura
 	glEnable(GL_TEXTURE_2D);
-	loadTextureFromFile("RedLeavesTexture.bmp");
+	loadTextureFromFile("textures/RedLeavesTexture.bmp");
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	
 	glBegin(GL_QUADS);
