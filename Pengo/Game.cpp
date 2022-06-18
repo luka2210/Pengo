@@ -3,15 +3,12 @@
 #include <stdlib.h>		
 #include "Glut.h"
 #include "Game.h"
-#include "Border.h"
-#include "LoadTexture.h"
-#include "Block.h"
-
-//#include "LoadTexture.h"
+#include "Board.h"
 
 const double Xmin = 0.0, Xmax = 14.0;
 const double Ymin = 0.0, Ymax = 18.0;
 
+Board* board;
 
 void myKeyboardFunc( unsigned char key, int x, int y ) {
 
@@ -21,6 +18,29 @@ void mySpecialKeyFunc( int key, int x, int y ) {
 	
 }
 
+void timerLoop(int value) {
+	glutTimerFunc(2000000000, timerLoop, 0);
+}
+
+void initializeBoard(void) {
+	short blockCoords[15][13] = { {0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0},
+								  {0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0},
+								  {0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0},
+								  {0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0},
+								  {0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0},
+								  {0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0},
+								  {0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0},
+								  {0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1 ,0},
+								  {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0},
+								  {0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0},
+								  {0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0},
+								  {0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0},
+								  {0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0},
+								  {0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0},
+								  {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0} };
+	board = new Board(blockCoords, 0, 0);
+}
+
 void drawScene(void){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -28,11 +48,9 @@ void drawScene(void){
 	glMatrixMode(GL_MODELVIEW);		
 	glLoadIdentity();
 
-	Block b1 = Block(0, 0, 0.5, 1.5);
-	b1.draw();
-		
-	Border b = Border();
-	b.draw();
+	board->draw();
+
+
 
     glFlush();
     glutSwapBuffers();
@@ -42,6 +60,7 @@ void drawScene(void){
 void initRendering() {
 	glShadeModel(GL_FLAT);
 	glEnable(GL_DEPTH);
+	initializeBoard();
 }
 
 void resizeWindow(int w, int h) {
@@ -89,7 +108,8 @@ int main( int argc, char** argv ) {
 	glutSpecialFunc(mySpecialKeyFunc);
 	glutReshapeFunc(resizeWindow);
 	glutDisplayFunc(drawScene);
-	
+	glutTimerFunc(20, timerLoop, 0);
+
 	glutMainLoop();
 
     return(0);

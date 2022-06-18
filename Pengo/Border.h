@@ -7,5 +7,9 @@ private:
 public:
 	Border();
 	void draw();
+
+	inline double getBorderX() { return x; }
+	inline double getBorderY() { return y; }
+	inline double getBorderThickness() { return thickness; }
 };
 

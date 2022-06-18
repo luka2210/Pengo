@@ -11,8 +11,8 @@ Block::Block(int i, int j, double offsetX, double offsetY) {
 
 void Block::draw() {
 	//position of the block
-	double posX = i + offsetX;
-	double posY = j + offsetY;
+	double posX = j + offsetX;
+	double posY = i + offsetY;
 	if (moveLeft)
 		posX -= distance;
 	if (moveRight)
