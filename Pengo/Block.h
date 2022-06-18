@@ -1,4 +1,6 @@
 #pragma once
+#include "RgbImage.h"
+
 class Block {
 private:
 	int i, j;
@@ -9,6 +11,7 @@ private:
 	bool destroyed = false;
 	bool moving = false;
 public:
+	static RgbImage image;
 	Block(int i, int j, double offsetX, double offsetY);
 	void draw();
 	void move();

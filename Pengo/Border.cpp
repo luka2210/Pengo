@@ -2,15 +2,17 @@
 #include "Glut.h"
 #include "LoadTexture.h"
 
+RgbImage Border::imageHorizontal("textures/HorizontalBorder.bmp");
+RgbImage Border::imageVertical("textures/VerticalBorder.bmp");
 
 Border::Border() {}
 
 void Border::draw() {
 	glEnable(GL_TEXTURE_2D);
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	//glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 
 	//left border
-	LoadTexture::file("textures/VerticalBorder.bmp");
+	LoadTexture::image(imageVertical);
 	glBegin(GL_QUADS);
 	glTexCoord2f(0.0, 0.0);
 	glVertex2f(x, y);
@@ -23,7 +25,7 @@ void Border::draw() {
 	glEnd();
 
 	//right border
-	LoadTexture::file("textures/VerticalBorder.bmp");
+	LoadTexture::image(imageVertical);
 	glBegin(GL_QUADS);
 	glTexCoord2f(0.0, 0.0);
 	glVertex2f(x + width - thickness, y);
@@ -37,7 +39,7 @@ void Border::draw() {
 
 
 	//top border
-	LoadTexture::file("textures/HorizontalBorder.bmp");
+	LoadTexture::image(imageHorizontal);
 	glBegin(GL_QUADS);
 	glTexCoord2f(0.0, 0.0);
 	glVertex2f(x, y + height);
@@ -50,7 +52,7 @@ void Border::draw() {
 	glEnd();
 	
 	//bottom border
-	LoadTexture::file("textures/HorizontalBorder.bmp");
+	LoadTexture::image(imageHorizontal);
 	glBegin(GL_QUADS);
 	glTexCoord2f(0.0, 0.0);
 	glVertex2f(x, y);
