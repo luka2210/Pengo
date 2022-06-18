@@ -3,6 +3,7 @@
 #include <algorithm>
 #include "Border.h"
 #include "Block.h"
+#include "Pengo.h"
 #include "Glut.h"
 
 using namespace std;
@@ -12,6 +13,7 @@ private:
 	int numEnemy1 = 0, numEnemy2 = 0;
 	Border border = Border();
 	vector<Block> blocks = vector<Block>();
+	Pengo pengo = Pengo(8, 6);
 
 public:
 	Board(short blokcCoords[15][13], int numEnemy1, int numEnemy2);

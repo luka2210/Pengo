@@ -145,6 +145,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="Glut.h" />
     <ClInclude Include="LoadTexture.h" />
+    <ClInclude Include="Pengo.h" />
     <ClInclude Include="RgbImage.h" />
   </ItemGroup>
   <ItemGroup>
@@ -155,6 +156,7 @@
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="Border.cpp" />
     <ClCompile Include="Game.cpp" />
+    <ClCompile Include="Pengo.cpp" />
     <ClCompile Include="RgbImage.cpp" />
     <ClCompile Include="LoadTexture.cpp" />
   </ItemGroup>

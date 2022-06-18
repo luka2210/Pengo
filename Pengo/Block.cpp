@@ -2,12 +2,15 @@
 #include "Glut.h"
 
 RgbImage Block::image("textures/Block.bmp");
+double Block::height = 1.0;
+double Block::width = 1.0;
+double Block::offsetX = 0.5;
+double Block::offsetY = 1.25;
 
-Block::Block(int i, int j, double offsetX, double offsetY) {
+
+Block::Block(int i, int j) {
 	this->i = i;
 	this->j = j;
-	this->offsetX = offsetX;
-	this->offsetY = offsetY;
 }
 
 void Block::draw() {
