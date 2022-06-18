@@ -1,4 +1,5 @@
 #pragma once
+
 class Border {
 private:
 	double x, y, width, height, thickness;

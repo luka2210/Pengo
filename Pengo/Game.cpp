@@ -4,31 +4,12 @@
 #include "Glut.h"
 #include "Game.h"
 #include "Border.h"
-#include "RgbImage.h"
+#include "LoadTexture.h"
+
+//#include "LoadTexture.h"
 
 const double Xmin = 0.0, Xmax = 14.0;
 const double Ymin = 0.0, Ymax = 18.0;
-
-void loadTextureFromFile(const char* filename)
-{
-	glClearColor(0.0, 0.0, 0.0, 0.0);
-	glShadeModel(GL_FLAT);
-	glEnable(GL_DEPTH_TEST);
-
-	RgbImage theTexMap(filename);
-
-	// Pixel alignment: each row is word aligned (aligned to a 4 byte boundary)
-	//    Therefore, no need to call glPixelStore( GL_UNPACK_ALIGNMENT, ... );
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
-	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, theTexMap.GetNumCols(), theTexMap.GetNumRows(),
-		GL_RGB, GL_UNSIGNED_BYTE, theTexMap.ImageData());
-
-}
 
 
 void myKeyboardFunc( unsigned char key, int x, int y ) {
@@ -46,6 +27,7 @@ void drawScene(void){
 	glMatrixMode(GL_MODELVIEW);		
 	glLoadIdentity();
 
+	/*
 	//tekstura
 	glEnable(GL_TEXTURE_2D);
 	loadTextureFromFile("textures/RedLeavesTexture.bmp");
@@ -64,6 +46,23 @@ void drawScene(void){
 
 	glDisable(GL_TEXTURE_2D);
 
+	glEnable(GL_TEXTURE_2D);
+	loadTextureFromFile("textures/TopBorder.bmp");
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+
+	glBegin(GL_QUADS);
+	glTexCoord2f(0.0, 0.0);
+	glVertex3f(7.0, 7.0, 0.0);
+	glTexCoord2f(0.0, 1.0);
+	glVertex3f(7.0, 8.0, 0.0);
+	glTexCoord2f(1.0, 1.0);
+	glVertex3f(8.0, 8.0, 0.0);
+	glTexCoord2f(1.0, 0.0);
+	glVertex3f(8.0, 7.0, 0.0);
+	glEnd();
+
+	glDisable(GL_TEXTURE_2D);
+	*/
 
 	Border b = Border(0.0, 1.0, Xmax, 16.0, 0.5);
 	b.draw();

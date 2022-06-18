@@ -142,6 +142,7 @@
     <ClInclude Include="Border.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Glut.h" />
+    <ClInclude Include="LoadTexture.h" />
     <ClInclude Include="RgbImage.h" />
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +152,7 @@
     <ClCompile Include="Border.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="RgbImage.cpp" />
+    <ClCompile Include="LoadTexture.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
