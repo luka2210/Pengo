@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Block.h" />
     <ClInclude Include="Border.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Glut.h" />
@@ -149,6 +150,7 @@
     <Library Include="glut32.lib" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Block.cpp" />
     <ClCompile Include="Border.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="RgbImage.cpp" />

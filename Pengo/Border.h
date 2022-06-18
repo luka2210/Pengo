@@ -2,10 +2,10 @@
 
 class Border {
 private:
-	double x, y, width, height, thickness;
+	const double x = 0, y = 0.75, width = 14.0, height = 16.0, thickness = 0.5;
 	bool activatedLeft = false, activatedRight = false, activatedTop = false, activatedBottom = false;
 public:
-	Border(double x, double y, double width, double height, double thickness);
+	Border();
 	void draw();
 };
 

@@ -2,13 +2,8 @@
 #include "Glut.h"
 #include "LoadTexture.h"
 
-Border::Border(double x, double y, double width, double height, double thickness) {
-	this->x = x;
-	this->y = y;
-	this->height = height;
-	this->width = width;
-	this->thickness = thickness;
-}
+
+Border::Border() {}
 
 void Border::draw() {
 	glEnable(GL_TEXTURE_2D);
@@ -66,4 +61,6 @@ void Border::draw() {
 	glTexCoord2f(1.0, 0.0);
 	glVertex2f(x + width, y);
 	glEnd();
+
+	glDisable(GL_TEXTURE_2D);
 }

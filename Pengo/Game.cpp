@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "Border.h"
 #include "LoadTexture.h"
+#include "Block.h"
 
 //#include "LoadTexture.h"
 
@@ -27,44 +28,10 @@ void drawScene(void){
 	glMatrixMode(GL_MODELVIEW);		
 	glLoadIdentity();
 
-	/*
-	//tekstura
-	glEnable(GL_TEXTURE_2D);
-	loadTextureFromFile("textures/RedLeavesTexture.bmp");
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	
-	glBegin(GL_QUADS);
-	glTexCoord2f(0.0, 0.0);
-	glVertex3f(5.0, 5.0, 0.0);
-	glTexCoord2f(0.0, 1.0);
-	glVertex3f(5.0, 6.0, 0.0);
-	glTexCoord2f(1.0, 1.0);
-	glVertex3f(6.0, 6.0, 0.0);
-	glTexCoord2f(1.0, 0.0);
-	glVertex3f(6.0, 5.0, 0.0);
-	glEnd();
-
-	glDisable(GL_TEXTURE_2D);
-
-	glEnable(GL_TEXTURE_2D);
-	loadTextureFromFile("textures/TopBorder.bmp");
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-
-	glBegin(GL_QUADS);
-	glTexCoord2f(0.0, 0.0);
-	glVertex3f(7.0, 7.0, 0.0);
-	glTexCoord2f(0.0, 1.0);
-	glVertex3f(7.0, 8.0, 0.0);
-	glTexCoord2f(1.0, 1.0);
-	glVertex3f(8.0, 8.0, 0.0);
-	glTexCoord2f(1.0, 0.0);
-	glVertex3f(8.0, 7.0, 0.0);
-	glEnd();
-
-	glDisable(GL_TEXTURE_2D);
-	*/
-
-	Border b = Border(0.0, 1.0, Xmax, 16.0, 0.5);
+	Block b1 = Block(0, 0, 0.5, 1.5);
+	b1.draw();
+		
+	Border b = Border();
 	b.draw();
 
     glFlush();
