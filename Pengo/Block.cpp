@@ -26,6 +26,7 @@ void Block::draw() {
 	if (moveDown)
 		posY += distance;
 
+
 	//draw block
 	glBegin(GL_QUADS);
 	glTexCoord2f(0.0, 0.0);

@@ -2,8 +2,8 @@
 #include "LoadTexture.h"
 
 Board::Board(short blockCoords[15][13], int numEnemy1, int numEnemy2) {
-	double offsetX = border.getBorderX() + border.getBorderThickness();
-	double offsetY = border.getBorderY() + border.getBorderThickness();
+	double offsetX = 0.5;
+	double offsetY = 1.25;
 	this->numEnemy1 = numEnemy1;
 	this->numEnemy2 = numEnemy2;
 	for (int i = 0; i < 15; i++)
@@ -16,7 +16,7 @@ void Board::draw() {
 	border.draw();
 
 	glEnable(GL_TEXTURE_2D);
-	//glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
+	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	LoadTexture::image(Block::getImage());
 	for (Block &block : blocks)
 		block.draw();
