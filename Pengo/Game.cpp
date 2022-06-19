@@ -4,7 +4,7 @@
 #include "Glut.h"
 #include "Game.h"
 #include "Board.h"
-#include <iostream>
+#include "LoadTexture.h"
 
 using namespace std;
 
@@ -26,8 +26,12 @@ short blockCoords[15][13] = {     {0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0},
 								  {0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0},
 								  {0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0},
 								  {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0} };
-Board board = Board(blockCoords, 0, 0);
+Board board = Board(blockCoords);
 Pengo pengo = Pengo(8, 6);
+Border border = Border();
+Pengo pengo2 = Pengo(10, 6);
+Pengo pengo3 = Pengo(11, 6);
+Pengo pengo4 = Pengo(12, 6);
 
 void myKeyboardFunc( unsigned char key, int x, int y ) {
 
@@ -118,10 +122,6 @@ void movePengo(int direction) {
 	glutTimerFunc(20, movePengo, direction);
 }
 
-void initializeBoard(void) {
-	
-}
-
 void drawScene(void){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -129,8 +129,10 @@ void drawScene(void){
 	glMatrixMode(GL_MODELVIEW);		
 	glLoadIdentity();
 
+	border.draw();
 	board.draw();
 	pengo.draw();
+
 
     glFlush();
     glutSwapBuffers();
@@ -140,7 +142,6 @@ void drawScene(void){
 void initRendering() {
 	glShadeModel(GL_FLAT);
 	glEnable(GL_DEPTH);
-	initializeBoard();
 }
 
 void resizeWindow(int w, int h) {
