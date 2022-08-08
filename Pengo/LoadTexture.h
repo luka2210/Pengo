@@ -1,6 +1,4 @@
 #pragma once
-#include "Glut.h"
-#include "RgbImage.h"
 
 class LoadTexture {
 public:

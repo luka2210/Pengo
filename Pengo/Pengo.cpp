@@ -1,4 +1,5 @@
 #include "Pengo.h"
+#include "Glut.h"
 
 double Pengo::height = 1.0;
 double Pengo::width = 1.0;

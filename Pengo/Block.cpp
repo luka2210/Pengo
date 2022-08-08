@@ -1,4 +1,5 @@
 #include "Block.h"
+#include "Glut.h"
 
 double Block::height = 1.0;
 double Block::width = 1.0;

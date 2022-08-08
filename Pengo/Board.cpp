@@ -1,4 +1,5 @@
 #include "Board.h"
+#include "Glut.h"
 
 Board::Board(short blockCoords[15][13], Pengo pengo) {
 	this->pengo = pengo;

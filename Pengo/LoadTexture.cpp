@@ -1,4 +1,6 @@
 #include "LoadTexture.h"
+#include "Glut.h"
+#include "RgbImage.h"
 
 unsigned int LoadTexture::file(const char* filename) {
 	glClearColor(0.0, 0.0, 0.0, 0.0);

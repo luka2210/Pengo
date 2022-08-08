@@ -1,5 +1,4 @@
 #pragma once
-#include "Glut.h"
 
 class Pengo {
 public:

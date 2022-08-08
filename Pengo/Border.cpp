@@ -1,4 +1,5 @@
 #include "Border.h"
+#include "Glut.h"
 
 unsigned int Border::borderHorizontal = 0, Border::borderVertical = 0;
 
