@@ -5,8 +5,7 @@ double Block::width = 1.0;
 double Block::offsetX = 0.5;
 double Block::offsetY = 1.25;
 
-GLuint Block::texture = 0;
-GLuint Block::textureDiamond = 0;
+unsigned int Block::texture = 0, Block::textureDiamond = 0;
 
 Block::Block(int i, int j, bool diamond) {
 	this->i = i;

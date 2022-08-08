@@ -1,11 +1,12 @@
 #pragma once
 #include "Glut.h"
 
+
 class Block {
 public:
 	static double width, height;
 	static double offsetX, offsetY;
-	static GLuint texture, textureDiamond;
+	static unsigned int texture, textureDiamond;
 
 	int i, j;
 	bool diamond;
@@ -16,7 +17,7 @@ public:
 	bool moving = false;
 
 	Block(int i, int j, bool diamond);
-	GLuint getImage();
+	unsigned int getImage();
 	void draw();
 	void move();
 };

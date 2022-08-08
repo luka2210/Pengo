@@ -1,14 +1,13 @@
 #include "LoadTexture.h"
-#include "RgbImage.h"
 
-GLuint LoadTexture::file(const char* filename) {
+unsigned int LoadTexture::file(const char* filename) {
 	glClearColor(0.0, 0.0, 0.0, 0.0);
 	glShadeModel(GL_FLAT);
 	glEnable(GL_DEPTH_TEST);
 
 	RgbImage theTexMap(filename);
 	
-	GLuint texture;
+	unsigned int texture;
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);

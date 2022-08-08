@@ -3,21 +3,21 @@
 
 class Pengo {
 public:
-	static GLuint pengoLeft1, pengoLeft2, pengoRight1, pengoRight2;
-	static GLuint pengoUp1, pengoUp2, pengoDown1, pengoDown2;
-	static GLuint pengoPushUp, pengoPushDown, pengoPushLeft, pengoPushRight;
+	static unsigned int pengoLeft1, pengoLeft2, pengoRight1, pengoRight2;
+	static unsigned pengoUp1, pengoUp2, pengoDown1, pengoDown2;
+	static unsigned int pengoPushUp, pengoPushDown, pengoPushLeft, pengoPushRight;
 	static double width, height;
 	static double offsetX, offsetY;
-	GLuint pickImage();
+	static double speed;
 
 	int i, j;
-	int orientation = 0.05;
+	int orientation = 2;
 	bool moving = false, pushing = false;
 	double distance = 0;
-	double speed = 0.1;
 	bool stepPos = true;
 	Pengo();
 	Pengo(int i, int j);
+	unsigned int pickImage();
 	void draw();
 };
 

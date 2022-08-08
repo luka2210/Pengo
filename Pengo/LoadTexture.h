@@ -1,7 +1,8 @@
 #pragma once
 #include "Glut.h"
+#include "RgbImage.h"
 
 class LoadTexture {
 public:
-	static GLuint file(const char* filename);
+	static unsigned int file(const char* filename);
 };

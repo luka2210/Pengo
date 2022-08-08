@@ -3,7 +3,7 @@
 
 class Border {
 public:
-	static GLuint borderVertical, borderHorizontal;
+	static unsigned int borderVertical, borderHorizontal;
 
 	bool activatedLeft = false, activatedRight = false, activatedTop = false, activatedBottom = false;
 

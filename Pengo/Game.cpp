@@ -1,33 +1,9 @@
-#include <math.h>		
-#include <stdio.h>
-#include <stdlib.h>		
-#include "Glut.h"
 #include "Game.h"
-#include "Board.h"
-#include "LoadTexture.h"
 
 using namespace std;
 
 const double Xmin = 0.0, Xmax = 14.0;
 const double Ymin = 0.0, Ymax = 18.0;
-
-short blockCoords[15][13] = {     {0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0},
-								  {0, 1, 0, 1, 1, 1, 0, 1, 1, 2, 0, 1, 0},
-								  {0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0},
-								  {0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0},
-								  {0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0},
-								  {0, 1, 0, 1, 1, 2, 1, 1, 1, 1, 0, 1, 0},
-								  {0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0},
-								  {0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1 ,0},
-								  {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0},
-								  {0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0},
-								  {0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0},
-								  {0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0},
-								  {0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0},
-								  {0, 1, 0, 2, 0, 1, 1, 1, 1, 1, 0, 1, 0},
-								  {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0} };
-Board board = Board(blockCoords, Pengo(8, 6));
-Pengo& pengo = board.pengo;
 
 void myKeyboardFunc( unsigned char key, int x, int y ) {
 
@@ -50,75 +26,6 @@ void mySpecialKeyFunc( int key, int x, int y ) {
 	}
 }
 
-void turnPengo(int direction) {
-	if (pengo.moving || pengo.pushing)
-		return;
-	pengo.orientation = direction;
-
-	switch (direction) {
-	case 1:
-		if (pengo.j == 0)
-			return;
-		for (Block& block : board.blocks)
-			if (block.i == pengo.i && block.j == pengo.j - 1)
-				return;
-		break;
-	case 2:
-		if (pengo.i == 0)
-			return;
-		for (Block& block : board.blocks)
-			if (block.j == pengo.j && block.i == pengo.i - 1)
-				return;
-		break;
-	case 3:
-		if (pengo.j == 12)
-			return;
-		for (Block& block : board.blocks)
-			if (block.i == pengo.i && block.j == pengo.j + 1)
-				return;
-		break;
-	case 4: 
-		if (pengo.i == 14)
-			return;
-		for (Block& block : board.blocks)
-			if (block.j == pengo.j && block.i == pengo.i + 1)
-				return;
-		break;
-	default:
-		return;
-	}
-
-	pengo.moving = true;
-	pengo.stepPos = !pengo.stepPos;
-	movePengo(direction);
-}
-
-void movePengo(int direction) {
-	pengo.distance += pengo.speed;
-	//pengo.stepPos = !pengo.stepPos;
-	if (pengo.distance >= 1) {
-		switch (direction) {
-		case 1:
-			pengo.j--;
-			break;
-		case 2:
-			pengo.i--;
-			break;
-		case 3:
-			pengo.j++;
-			break;
-		case 4:
-			pengo.i++;
-			break;
-		}
-		pengo.moving = false;
-		pengo.distance = 0;
-		printf("///\n");
-		return;
-	}
-	printf("pengo moved\n");
-	glutTimerFunc(10, movePengo, direction);
-}
 
 void drawScene(void){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -207,4 +114,74 @@ int main( int argc, char** argv ) {
 	glutMainLoop();
 
     return(0);
+}
+
+void turnPengo(int direction) {
+	if (pengo.moving || pengo.pushing)
+		return;
+	pengo.orientation = direction;
+
+	switch (direction) {
+	case 1:
+		if (pengo.j == 0)
+			return;
+		for (Block& block : board.blocks)
+			if (block.i == pengo.i && block.j == pengo.j - 1)
+				return;
+		break;
+	case 2:
+		if (pengo.i == 0)
+			return;
+		for (Block& block : board.blocks)
+			if (block.j == pengo.j && block.i == pengo.i - 1)
+				return;
+		break;
+	case 3:
+		if (pengo.j == 12)
+			return;
+		for (Block& block : board.blocks)
+			if (block.i == pengo.i && block.j == pengo.j + 1)
+				return;
+		break;
+	case 4:
+		if (pengo.i == 14)
+			return;
+		for (Block& block : board.blocks)
+			if (block.j == pengo.j && block.i == pengo.i + 1)
+				return;
+		break;
+	default:
+		return;
+	}
+
+	pengo.moving = true;
+	pengo.stepPos = !pengo.stepPos;
+	movePengo(direction);
+}
+
+void movePengo(int direction) {
+	pengo.distance += pengo.speed;
+	//pengo.stepPos = !pengo.stepPos;
+	if (pengo.distance >= 1) {
+		switch (direction) {
+		case 1:
+			pengo.j--;
+			break;
+		case 2:
+			pengo.i--;
+			break;
+		case 3:
+			pengo.j++;
+			break;
+		case 4:
+			pengo.i++;
+			break;
+		}
+		pengo.moving = false;
+		pengo.distance = 0;
+		printf("///\n");
+		return;
+	}
+	printf("pengo moved\n");
+	glutTimerFunc(10, movePengo, direction);
 }

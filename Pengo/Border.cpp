@@ -1,7 +1,6 @@
 #include "Border.h"
 
-GLuint Border::borderHorizontal = 0;
-GLuint Border::borderVertical = 0;
+unsigned int Border::borderHorizontal = 0, Border::borderVertical = 0;
 
 Border::Border() {}
 

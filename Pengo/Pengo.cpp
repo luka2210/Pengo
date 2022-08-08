@@ -4,22 +4,14 @@ double Pengo::height = 1.0;
 double Pengo::width = 1.0;
 double Pengo::offsetX = 0.5;
 double Pengo::offsetY = 1.25;
+double Pengo::speed = 0.1;
 
 //ne radi linker ako se ne inicijalizuju staticke vrednosti
-GLuint Pengo::pengoLeft1 = 0;
-GLuint Pengo::pengoLeft2 = 0; 
-GLuint Pengo::pengoRight1 = 0; 
-GLuint Pengo::pengoRight2 = 0;
-GLuint Pengo::pengoUp1 = 0;
-GLuint Pengo::pengoUp2 = 0;
-GLuint Pengo::pengoDown1 = 0;
-GLuint Pengo::pengoDown2 = 0;
-GLuint Pengo::pengoPushUp = 0;
-GLuint Pengo::pengoPushDown = 0;
-GLuint Pengo::pengoPushLeft = 0;
-GLuint Pengo::pengoPushRight = 0;
+unsigned int Pengo::pengoLeft1 = 0, Pengo::pengoLeft2 = 0, Pengo::pengoRight1 = 0, Pengo::pengoRight2 = 0;
+unsigned int Pengo::pengoUp1 = 0, Pengo::pengoUp2 = 0, Pengo::pengoDown1 = 0, Pengo::pengoDown2 = 0;
+unsigned int Pengo::pengoPushUp = 0, Pengo::pengoPushDown = 0, Pengo::pengoPushLeft = 0, Pengo::pengoPushRight = 0;
 
-GLuint Pengo::pickImage() {
+unsigned int Pengo::pickImage() {
 	switch (orientation) {
 	case 1:
 		if (pushing)
@@ -50,7 +42,10 @@ GLuint Pengo::pickImage() {
 	}
 }
 
-Pengo::Pengo() {}
+Pengo::Pengo() {
+	this->i = 8;
+	this->j = 6;
+}
 
 Pengo::Pengo(int i, int j) {
 	this->i = i;
