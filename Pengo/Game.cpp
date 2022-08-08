@@ -54,7 +54,6 @@ void turnPengo(int direction) {
 	if (pengo.moving || pengo.pushing)
 		return;
 	pengo.orientation = direction;
-	pengo.stepPos = !pengo.stepPos;
 
 	switch (direction) {
 	case 1:
@@ -90,6 +89,7 @@ void turnPengo(int direction) {
 	}
 
 	pengo.moving = true;
+	pengo.stepPos = !pengo.stepPos;
 	movePengo(direction);
 }
 
