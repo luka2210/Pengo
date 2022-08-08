@@ -125,6 +125,7 @@ void drawScene(void){
 	glLoadIdentity();
 
 	board.draw();
+	printf("tick\n");
 
     glFlush();
     glutSwapBuffers();
