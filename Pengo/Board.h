@@ -3,7 +3,6 @@
 #include "Border.h"
 #include "Block.h"
 #include "Pengo.h"
-#include "Glut.h"
 
 class Board {
 public:

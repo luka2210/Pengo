@@ -59,6 +59,7 @@ Pengo::Pengo(int i, int j) {
 }
 
 void Pengo::draw() {
+
 	double posX = j + offsetX;
 	double posY = i + offsetY;
 	
@@ -80,8 +81,9 @@ void Pengo::draw() {
 		break;
 	}
 
+
+	//draw pengo
 	glEnable(GL_TEXTURE_2D);
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glBindTexture(GL_TEXTURE_2D, pickImage());
 
 	glBegin(GL_QUADS);

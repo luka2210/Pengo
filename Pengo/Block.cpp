@@ -27,10 +27,10 @@ void Block::draw() {
 		posY += distance;
 
 	
+	//draw block
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, texture);
 
-	//draw block
 	glBegin(GL_QUADS);
 	glTexCoord2f(0.0, 0.0);
 	glVertex2f(posX, posY);

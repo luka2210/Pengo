@@ -120,7 +120,6 @@ void movePengo(int direction) {
 
 void drawScene(void){
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
     
 	glMatrixMode(GL_MODELVIEW);		
 	glLoadIdentity();
@@ -151,6 +150,8 @@ void loadTextures() {
 	Pengo::pengoPushUp = LoadTexture::file("textures/PengoPushUp.bmp");
 	Pengo::pengoPushLeft = LoadTexture::file("textures/PengoPushLeft.bmp");
 	Pengo::pengoPushRight = LoadTexture::file("textures/PengoPushRight.bmp");
+	Border::borderHorizontal = LoadTexture::file("textures/BorderHorizontal.bmp");
+	Border::borderVertical = LoadTexture::file("textures/BorderVertical.bmp");
 }
 
 void resizeWindow(int w, int h) {
