@@ -14,7 +14,7 @@ public:
 	int orientation = 0.05;
 	bool moving = false, pushing = false;
 	double distance = 0;
-	double speed = 0.05;
+	double speed = 0.17;
 	bool stepPos = true;
 	Pengo();
 	Pengo(int i, int j);

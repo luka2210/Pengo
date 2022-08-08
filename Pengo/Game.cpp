@@ -115,7 +115,7 @@ void movePengo(int direction) {
 		pengo.distance = 0;
 		return;
 	}
-	glutTimerFunc(7, movePengo, direction);
+	glutTimerFunc(50, movePengo, direction);
 }
 
 void drawScene(void){
