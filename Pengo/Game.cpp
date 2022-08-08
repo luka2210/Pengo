@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "LoadTexture.h"
+#include "GlobalVariables.h"
 #include "Glut.h"
 
 const double Xmin = 0.0, Xmax = 14.0;
