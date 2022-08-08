@@ -1,5 +1,4 @@
 #include "Board.h"
-#include "LoadTexture.h"
 
 Board::Board(short blockCoords[15][13], Pengo pengo) {
 	this->pengo = pengo;

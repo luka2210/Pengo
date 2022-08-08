@@ -1,5 +1,4 @@
 #pragma once
-#include "RgbImage.h"
 #include "Glut.h"
 
 class Block {
