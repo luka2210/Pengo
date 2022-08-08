@@ -39,6 +39,9 @@
     <ClInclude Include="Pengo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="GlobalVariables.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Library Include="glut32.lib">
