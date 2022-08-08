@@ -113,9 +113,11 @@ void movePengo(int direction) {
 		}
 		pengo.moving = false;
 		pengo.distance = 0;
+		printf("///\n");
 		return;
 	}
-	glutTimerFunc(20, movePengo, direction);
+	printf("pengo moved\n");
+	glutTimerFunc(10, movePengo, direction);
 }
 
 void drawScene(void){
@@ -125,7 +127,6 @@ void drawScene(void){
 	glLoadIdentity();
 
 	board.draw();
-	printf("tick\n");
 
     glFlush();
     glutSwapBuffers();
