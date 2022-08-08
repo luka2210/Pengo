@@ -12,11 +12,11 @@ const double Xmin = 0.0, Xmax = 14.0;
 const double Ymin = 0.0, Ymax = 18.0;
 
 short blockCoords[15][13] = {     {0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0},
-								  {0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0},
+								  {0, 1, 0, 1, 1, 1, 0, 1, 1, 2, 0, 1, 0},
 								  {0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0},
 								  {0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0},
 								  {0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0},
-								  {0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0},
+								  {0, 1, 0, 1, 1, 2, 1, 1, 1, 1, 0, 1, 0},
 								  {0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0},
 								  {0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1 ,0},
 								  {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0},
@@ -24,7 +24,7 @@ short blockCoords[15][13] = {     {0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0},
 								  {0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0},
 								  {0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0},
 								  {0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0},
-								  {0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0},
+								  {0, 1, 0, 2, 0, 1, 1, 1, 1, 1, 0, 1, 0},
 								  {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0} };
 Board board = Board(blockCoords, Pengo(8, 6));
 Pengo& pengo = board.pengo;
@@ -138,6 +138,7 @@ void initRendering() {
 
 void loadTextures() {
 	Block::texture = LoadTexture::file("textures/Block.bmp");
+	Block::textureDiamond = LoadTexture::file("textures/BlockDiamond.bmp");
 	Pengo::pengoDown1 = LoadTexture::file("textures/PengoDown1.bmp");
 	Pengo::pengoDown2 = LoadTexture::file("textures/PengoDown2.bmp");
 	Pengo::pengoUp1 = LoadTexture::file("textures/PengoUp1.bmp");

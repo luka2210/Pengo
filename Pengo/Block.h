@@ -6,16 +6,18 @@ class Block {
 public:
 	static double width, height;
 	static double offsetX, offsetY;
-	static GLuint texture;
+	static GLuint texture, textureDiamond;
 
 	int i, j;
-	double speed;
+	bool diamond;
+	double speed = 0.05;
 	bool moveLeft = false, moveRight = false, moveUp = false, moveDown = false;
 	double distance = 0.0;
 	bool destroyed = false;
 	bool moving = false;
 
-	Block(int i, int j);
+	Block(int i, int j, bool diamond);
+	GLuint getImage();
 	void draw();
 	void move();
 };

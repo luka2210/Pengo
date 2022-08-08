@@ -9,7 +9,9 @@ Board::Board(short blockCoords[15][13], Pengo pengo) {
 	for (int i = 0; i < 15; i++)
 		for (int j = 0; j < 13; j++)
 			if (blockCoords[i][j] == 1)
-				blocks.push_back(Block(14 - i, j));
+				blocks.push_back(Block(14 - i, j, false));
+			else if (blockCoords[i][j] == 2)
+				blocks.push_back(Block(14 - i, j, true));
 }
 
 void Board::draw() {

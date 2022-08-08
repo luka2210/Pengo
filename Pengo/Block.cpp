@@ -7,10 +7,18 @@ double Block::offsetX = 0.5;
 double Block::offsetY = 1.25;
 
 GLuint Block::texture = 0;
+GLuint Block::textureDiamond = 0;
 
-Block::Block(int i, int j) {
+Block::Block(int i, int j, bool diamond) {
 	this->i = i;
 	this->j = j;
+	this->diamond = diamond;
+}
+
+GLuint Block::getImage() {
+	if (diamond)
+		return textureDiamond;
+	return texture;
 }
 
 void Block::draw() {
@@ -29,7 +37,7 @@ void Block::draw() {
 	
 	//draw block
 	glEnable(GL_TEXTURE_2D);
-	glBindTexture(GL_TEXTURE_2D, texture);
+	glBindTexture(GL_TEXTURE_2D, getImage());
 
 	glBegin(GL_QUADS);
 	glTexCoord2f(0.0, 0.0);

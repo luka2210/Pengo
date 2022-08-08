@@ -21,5 +21,6 @@ GLuint LoadTexture::file(const char* filename) {
 	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, theTexMap.GetNumCols(), theTexMap.GetNumRows(),
 		GL_RGB, GL_UNSIGNED_BYTE, theTexMap.ImageData());
 
+	printf("%d\n", texture);
 	return texture;
 }
