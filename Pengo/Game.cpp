@@ -26,12 +26,8 @@ short blockCoords[15][13] = {     {0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0},
 								  {0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0},
 								  {0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0},
 								  {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0} };
-Board board = Board(blockCoords);
-Pengo pengo = Pengo(8, 6);
-Border border = Border();
-Pengo pengo2 = Pengo(10, 6);
-Pengo pengo3 = Pengo(11, 6);
-Pengo pengo4 = Pengo(12, 6);
+Board board = Board(blockCoords, Pengo(8, 6));
+Pengo& pengo = board.pengo;
 
 void myKeyboardFunc( unsigned char key, int x, int y ) {
 
@@ -99,7 +95,7 @@ void turnPengo(int direction) {
 
 void movePengo(int direction) {
 	pengo.distance += pengo.speed;
-	pengo.stepPos = !pengo.stepPos;
+	//pengo.stepPos = !pengo.stepPos;
 	if (pengo.distance >= 1) {
 		switch (direction) {
 		case 1:
@@ -119,7 +115,7 @@ void movePengo(int direction) {
 		pengo.distance = 0;
 		return;
 	}
-	glutTimerFunc(20, movePengo, direction);
+	glutTimerFunc(7, movePengo, direction);
 }
 
 void drawScene(void){
@@ -129,10 +125,7 @@ void drawScene(void){
 	glMatrixMode(GL_MODELVIEW);		
 	glLoadIdentity();
 
-	border.draw();
 	board.draw();
-	pengo.draw();
-
 
     glFlush();
     glutSwapBuffers();
@@ -142,6 +135,22 @@ void drawScene(void){
 void initRendering() {
 	glShadeModel(GL_FLAT);
 	glEnable(GL_DEPTH);
+}
+
+void loadTextures() {
+	Block::texture = LoadTexture::file("textures/Block.bmp");
+	Pengo::pengoDown1 = LoadTexture::file("textures/PengoDown1.bmp");
+	Pengo::pengoDown2 = LoadTexture::file("textures/PengoDown2.bmp");
+	Pengo::pengoUp1 = LoadTexture::file("textures/PengoUp1.bmp");
+	Pengo::pengoUp2 = LoadTexture::file("textures/PengoUp2.bmp");
+	Pengo::pengoLeft1 = LoadTexture::file("textures/PengoLeft1.bmp");
+	Pengo::pengoLeft2 = LoadTexture::file("textures/PengoLeft2.bmp");
+	Pengo::pengoRight1 = LoadTexture::file("textures/PengoRight1.bmp");
+	Pengo::pengoRight2 = LoadTexture::file("textures/PengoRight2.bmp");
+	Pengo::pengoPushDown = LoadTexture::file("textures/PengoPushDown.bmp");
+	Pengo::pengoPushUp = LoadTexture::file("textures/PengoPushUp.bmp");
+	Pengo::pengoPushLeft = LoadTexture::file("textures/PengoPushLeft.bmp");
+	Pengo::pengoPushRight = LoadTexture::file("textures/PengoPushRight.bmp");
 }
 
 void resizeWindow(int w, int h) {
@@ -184,6 +193,7 @@ int main( int argc, char** argv ) {
 	glutCreateWindow("Pengo");
 
     initRendering();
+	loadTextures();
 
 	glutKeyboardFunc(myKeyboardFunc);
 	glutSpecialFunc(mySpecialKeyFunc);

@@ -1,12 +1,12 @@
 #include "Block.h"
-#include "Glut.h"
+#include "LoadTexture.h"
 
-RgbImage Block::image("textures/Block.bmp");
 double Block::height = 1.0;
 double Block::width = 1.0;
 double Block::offsetX = 0.5;
 double Block::offsetY = 1.25;
 
+GLuint Block::texture = 0;
 
 Block::Block(int i, int j) {
 	this->i = i;
@@ -26,6 +26,9 @@ void Block::draw() {
 	if (moveDown)
 		posY += distance;
 
+	
+	glEnable(GL_TEXTURE_2D);
+	glBindTexture(GL_TEXTURE_2D, texture);
 
 	//draw block
 	glBegin(GL_QUADS);
@@ -38,6 +41,8 @@ void Block::draw() {
 	glTexCoord2f(0.0, 1.0);
 	glVertex2f(posX, posY + height);
 	glEnd();
+
+	glDisable(GL_TEXTURE_2D);
 }
 
 void Block::move()

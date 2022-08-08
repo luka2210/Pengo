@@ -1,18 +1,17 @@
 #pragma once
 #include <vector>
-#include <algorithm>
 #include "Border.h"
 #include "Block.h"
 #include "Pengo.h"
 #include "Glut.h"
 
-using namespace std;
-
 class Board {
 public:
-	vector<Block> blocks = vector<Block>();
+	std::vector<Block> blocks;
+	Border border;
+	Pengo pengo;
 
-	Board(short blokcCoords[15][13]);
+	Board(short blokcCoords[15][13], Pengo pengo);
 	void draw();
 };
 

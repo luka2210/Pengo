@@ -1,9 +1,11 @@
 #include "Board.h"
 #include "LoadTexture.h"
 
-Board::Board(short blockCoords[15][13]) {
-	double offsetX = 0.5;
-	double offsetY = 1.25;
+Board::Board(short blockCoords[15][13], Pengo pengo) {
+	this->pengo = pengo;
+	this->border = Border();
+	this->blocks = std::vector<Block>();
+
 	for (int i = 0; i < 15; i++)
 		for (int j = 0; j < 13; j++)
 			if (blockCoords[i][j] == 1)
@@ -11,12 +13,10 @@ Board::Board(short blockCoords[15][13]) {
 }
 
 void Board::draw() {
-	glEnable(GL_TEXTURE_2D);
-	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	LoadTexture::image(Block::getImage());
+	border.draw();
+	pengo.draw();	
 	for (Block &block : blocks)
 		block.draw();
-	glDisable(GL_TEXTURE_2D);
 }
 
 

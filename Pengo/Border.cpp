@@ -40,7 +40,7 @@ void Border::draw() {
 	glEnd();
 
 
-	glEnable(GL_TEXTURE_2D);
+	//glEnable(GL_TEXTURE_2D);
 	//LoadTexture::image(Border::imageHorizontal);
 	glBegin(GL_QUADS);
 	glTexCoord2f(0.0, 0.0);
@@ -53,5 +53,5 @@ void Border::draw() {
 	glVertex2f(14.0, 0.75);
 	glEnd();
 
-	glDisable(GL_TEXTURE_2D);
+	//glDisable(GL_TEXTURE_2D);
 }

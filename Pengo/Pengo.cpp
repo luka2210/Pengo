@@ -1,26 +1,26 @@
 #include "Pengo.h"
-#include "Glut.h"
 #include "LoadTexture.h";
 
-RgbImage Pengo::pengoDown1("textures/PengoDown1.bmp");
-RgbImage Pengo::pengoDown2("textures/PengoDown2.bmp");
-RgbImage Pengo::pengoUp1("textures/PengoUp1.bmp");
-RgbImage Pengo::pengoUp2("textures/PengoUp2.bmp");
-RgbImage Pengo::pengoLeft1("textures/PengoLeft1.bmp");
-RgbImage Pengo::pengoLeft2("textures/PengoLeft2.bmp");
-RgbImage Pengo::pengoRight1("textures/PengoRight1.bmp");
-RgbImage Pengo::pengoRight2("textures/PengoRight2.bmp");
-RgbImage Pengo::pengoPushDown("textures/PengoPushDown.bmp");
-RgbImage Pengo::pengoPushUp("textures/PengoPushUp.bmp");
-RgbImage Pengo::pengoPushLeft("textures/PengoPushLeft.bmp");
-RgbImage Pengo::pengoPushRight("textures/PengoPushRight.bmp");
 double Pengo::height = 1.0;
 double Pengo::width = 1.0;
 double Pengo::offsetX = 0.5;
 double Pengo::offsetY = 1.25;
 
+//ne radi linker ako se ne inicijalizuju staticke vrednosti
+GLuint Pengo::pengoLeft1 = 0;
+GLuint Pengo::pengoLeft2 = 0; 
+GLuint Pengo::pengoRight1 = 0; 
+GLuint Pengo::pengoRight2 = 0;
+GLuint Pengo::pengoUp1 = 0;
+GLuint Pengo::pengoUp2 = 0;
+GLuint Pengo::pengoDown1 = 0;
+GLuint Pengo::pengoDown2 = 0;
+GLuint Pengo::pengoPushUp = 0;
+GLuint Pengo::pengoPushDown = 0;
+GLuint Pengo::pengoPushLeft = 0;
+GLuint Pengo::pengoPushRight = 0;
 
-RgbImage& Pengo::pickImage() {
+GLuint Pengo::pickImage() {
 	switch (orientation) {
 	case 1:
 		if (pushing)
@@ -51,6 +51,8 @@ RgbImage& Pengo::pickImage() {
 	}
 }
 
+Pengo::Pengo() {}
+
 Pengo::Pengo(int i, int j) {
 	this->i = i;
 	this->j = j;
@@ -80,7 +82,7 @@ void Pengo::draw() {
 
 	glEnable(GL_TEXTURE_2D);
 	glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-	LoadTexture::image(pickImage());
+	glBindTexture(GL_TEXTURE_2D, pickImage());
 
 	glBegin(GL_QUADS);
 	glTexCoord2f(0.0, 0.0);

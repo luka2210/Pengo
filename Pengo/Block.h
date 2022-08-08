@@ -1,11 +1,12 @@
 #pragma once
 #include "RgbImage.h"
+#include "Glut.h"
 
 class Block {
 public:
-	static RgbImage image;
 	static double width, height;
 	static double offsetX, offsetY;
+	static GLuint texture;
 
 	int i, j;
 	double speed;
@@ -13,10 +14,9 @@ public:
 	double distance = 0.0;
 	bool destroyed = false;
 	bool moving = false;
-public:
+
 	Block(int i, int j);
 	void draw();
 	void move();
-	inline static RgbImage& getImage() { return image; }
 };
 
