@@ -33,6 +33,24 @@ void loadTextures() {
 	Pengo::pengoPushRight = LoadTexture::file("textures/PengoPushRight.bmp");
 	Border::borderHorizontal = LoadTexture::file("textures/BorderHorizontal.bmp");
 	Border::borderVertical = LoadTexture::file("textures/BorderVertical.bmp");
+	Enemy::enemyDown1 = LoadTexture::file("textures/EnemyDown1.bmp");
+	Enemy::enemyDown2 = LoadTexture::file("textures/EnemyDown2.bmp");
+	Enemy::enemyUp1 = LoadTexture::file("textures/EnemyUp1.bmp");
+	Enemy::enemyUp2 = LoadTexture::file("textures/EnemyUp2.bmp");
+	Enemy::enemyLeft1 = LoadTexture::file("textures/EnemyLeft1.bmp");
+	Enemy::enemyLeft2 = LoadTexture::file("textures/EnemyLeft2.bmp");
+	Enemy::enemyRight1 = LoadTexture::file("textures/EnemyRight1.bmp");
+	Enemy::enemyRight2 = LoadTexture::file("textures/EnemyRight2.bmp");
+	Enemy::enemySweepDown1 = LoadTexture::file("textures/EnemySweepDown1.bmp");
+	Enemy::enemySweepDown2 = LoadTexture::file("textures/EnemySweepDown2.bmp");
+	Enemy::enemySweepUp1 = LoadTexture::file("textures/EnemySweepUp1.bmp");
+	Enemy::enemySweepUp2 = LoadTexture::file("textures/EnemySweepUp2.bmp");
+	Enemy::enemySweepLeft1 = LoadTexture::file("textures/EnemySweepLeft1.bmp");
+	Enemy::enemySweepLeft2 = LoadTexture::file("textures/EnemySweepLeft2.bmp");
+	Enemy::enemySweepRight1 = LoadTexture::file("textures/EnemySweepRight1.bmp");
+	Enemy::enemySweepRight2 = LoadTexture::file("textures/EnemySweepRight2.bmp");
+	Enemy::enemyStunned1 = LoadTexture::file("textures/EnemyStunned1.bmp");
+	Enemy::enemyStunned2 = LoadTexture::file("textures/EnemyStunned2.bmp");
 }
 
 

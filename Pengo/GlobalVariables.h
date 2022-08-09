@@ -15,7 +15,7 @@ extern short blockCoords[15][13] = { {0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0},
 								  {0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0},
 								  {0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0},
 								  {0, 1, 0, 2, 0, 1, 1, 1, 1, 1, 0, 1, 0},
-								  {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0} };
+								  {0, 1, 0, 0, 0, 0, 0, 3, 0, 3, 0, 1, 0} };
 extern Board board = Board(blockCoords, Pengo(8, 6));
 extern Pengo& pengo = board.pengo;
 extern Block* pushedBlock = nullptr;
