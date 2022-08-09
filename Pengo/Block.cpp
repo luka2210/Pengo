@@ -9,11 +9,13 @@ double Block::speed = 0.2;
 
 unsigned int Block::texture = 0, Block::textureDiamond = 0;
 unsigned int Block::textureDestroyed[] = {0, 0, 0, 0, 0, 0, 0, 0};
+unsigned int Block::globalId = 0;
 
 Block::Block(int i, int j, bool diamond) {
 	this->i = i;
 	this->j = j;
 	this->diamond = diamond;
+	this->id = ++Block::globalId;
 }
 
 GLuint Block::getImage() {

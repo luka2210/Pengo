@@ -265,20 +265,21 @@ void blockPush(int direction) {
 void checkIfBlockShouldBeDestroyed() {
 	if (!pushedBlock->moving && !pushedBlock->diamond) {
 		pushedBlock->destroyed = true;
-		blockDestroyedAnimation(0);
+		blockDestroyedAnimation(pushedBlock->id);
 	}
 	else 
 		pushedBlock->moving = false;
 }
 
-void blockDestroyedAnimation(int state) {
-	for (auto iterator = board.blocks.begin(); iterator != board.blocks.end(); iterator++)
-		if ((*iterator).destroyed) {
-			if ((*iterator).destroyedState < 7)
-				(*iterator).destroyedState++;
+void blockDestroyedAnimation(int id) {
+	for (std::vector<Block>::iterator blockIterator = board.blocks.begin(); blockIterator != board.blocks.end(); blockIterator++)
+		if ((*blockIterator).id == id) {
+			if ((*blockIterator).destroyedState < 7) {
+				(*blockIterator).destroyedState++;
+				glutTimerFunc(50, blockDestroyedAnimation, id);
+			}
 			else
-				board.blocks.erase(iterator);
-			glutTimerFunc(1000, blockDestroyedAnimation, 0);
+				board.blocks.erase(blockIterator);
 			return;
 		}
 }

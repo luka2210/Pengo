@@ -2,6 +2,7 @@
 
 class Block {
 public:
+	static unsigned int globalId;
 	static double width, height;
 	static double offsetX, offsetY;
 	static double speed;
@@ -9,6 +10,7 @@ public:
 	static unsigned int textureDestroyed[];
 
 	int i, j;
+	unsigned int id;
 	bool diamond;
 	bool moving = false;
 	int orientation = 0;
