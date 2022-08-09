@@ -1,6 +1,5 @@
 #include "Game.h"
-#include "LoadTexture.h"
-#include "GlobalVariables.h"
+#include "Animations.h"
 #include "Glut.h"
 
 const double Xmin = 0.0, Xmax = 14.0;
@@ -34,7 +33,7 @@ void drawScene(void){
 	glMatrixMode(GL_MODELVIEW);		
 	glLoadIdentity();
 
-	board.draw();
+	drawBoard();
 
     glFlush();
     glutSwapBuffers();
@@ -44,25 +43,6 @@ void drawScene(void){
 void initRendering() {
 	glShadeModel(GL_FLAT);
 	glEnable(GL_DEPTH);
-}
-
-void loadTextures() {
-	Block::texture = LoadTexture::file("textures/Block.bmp");
-	Block::textureDiamond = LoadTexture::file("textures/BlockDiamond.bmp");
-	Pengo::pengoDown1 = LoadTexture::file("textures/PengoDown1.bmp");
-	Pengo::pengoDown2 = LoadTexture::file("textures/PengoDown2.bmp");
-	Pengo::pengoUp1 = LoadTexture::file("textures/PengoUp1.bmp");
-	Pengo::pengoUp2 = LoadTexture::file("textures/PengoUp2.bmp");
-	Pengo::pengoLeft1 = LoadTexture::file("textures/PengoLeft1.bmp");
-	Pengo::pengoLeft2 = LoadTexture::file("textures/PengoLeft2.bmp");
-	Pengo::pengoRight1 = LoadTexture::file("textures/PengoRight1.bmp");
-	Pengo::pengoRight2 = LoadTexture::file("textures/PengoRight2.bmp");
-	Pengo::pengoPushDown = LoadTexture::file("textures/PengoPushDown.bmp");
-	Pengo::pengoPushUp = LoadTexture::file("textures/PengoPushUp.bmp");
-	Pengo::pengoPushLeft = LoadTexture::file("textures/PengoPushLeft.bmp");
-	Pengo::pengoPushRight = LoadTexture::file("textures/PengoPushRight.bmp");
-	Border::borderHorizontal = LoadTexture::file("textures/BorderHorizontal.bmp");
-	Border::borderVertical = LoadTexture::file("textures/BorderVertical.bmp");
 }
 
 void resizeWindow(int w, int h) {
@@ -115,74 +95,4 @@ int main( int argc, char** argv ) {
 	glutMainLoop();
 
     return(0);
-}
-
-void turnPengo(int direction) {
-	if (pengo.moving || pengo.pushing)
-		return;
-	pengo.orientation = direction;
-
-	switch (direction) {
-	case 1:
-		if (pengo.j == 0)
-			return;
-		for (Block& block : board.blocks)
-			if (block.i == pengo.i && block.j == pengo.j - 1)
-				return;
-		break;
-	case 2:
-		if (pengo.i == 0)
-			return;
-		for (Block& block : board.blocks)
-			if (block.j == pengo.j && block.i == pengo.i - 1)
-				return;
-		break;
-	case 3:
-		if (pengo.j == 12)
-			return;
-		for (Block& block : board.blocks)
-			if (block.i == pengo.i && block.j == pengo.j + 1)
-				return;
-		break;
-	case 4:
-		if (pengo.i == 14)
-			return;
-		for (Block& block : board.blocks)
-			if (block.j == pengo.j && block.i == pengo.i + 1)
-				return;
-		break;
-	default:
-		return;
-	}
-
-	pengo.moving = true;
-	pengo.stepPos = !pengo.stepPos;
-	movePengo(direction);
-}
-
-void movePengo(int direction) {
-	pengo.distance += pengo.speed;
-	//pengo.stepPos = !pengo.stepPos;
-	if (pengo.distance >= 1) {
-		switch (direction) {
-		case 1:
-			pengo.j--;
-			break;
-		case 2:
-			pengo.i--;
-			break;
-		case 3:
-			pengo.j++;
-			break;
-		case 4:
-			pengo.i++;
-			break;
-		}
-		pengo.moving = false;
-		pengo.distance = 0;
-		printf("///\n");
-		return;
-	}
-	printf("pengo moved\n");
-	glutTimerFunc(10, movePengo, direction);
 }
