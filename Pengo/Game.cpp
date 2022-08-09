@@ -6,7 +6,8 @@ const double Xmin = 0.0, Xmax = 14.0;
 const double Ymin = 0.0, Ymax = 18.0;
 
 void myKeyboardFunc( unsigned char key, int x, int y ) {
-
+	if (key == 'Z' || key == 'z')
+		pushPengo();
 }
 
 void mySpecialKeyFunc( int key, int x, int y ) {

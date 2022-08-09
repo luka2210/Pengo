@@ -5,8 +5,10 @@ double Block::height = 1.0;
 double Block::width = 1.0;
 double Block::offsetX = 0.5;
 double Block::offsetY = 1.25;
+double Block::speed = 0.2;
 
 unsigned int Block::texture = 0, Block::textureDiamond = 0;
+unsigned int Block::textureDestroyed[] = {0, 0, 0, 0, 0, 0, 0, 0};
 
 Block::Block(int i, int j, bool diamond) {
 	this->i = i;
@@ -15,6 +17,8 @@ Block::Block(int i, int j, bool diamond) {
 }
 
 GLuint Block::getImage() {
+	if (destroyed)
+		return textureDestroyed[destroyedState];
 	if (diamond)
 		return textureDiamond;
 	return texture;
@@ -24,14 +28,23 @@ void Block::draw() {
 	//position of the block
 	double posX = j + offsetX;
 	double posY = i + offsetY;
-	if (moveLeft)
+	switch (orientation) {
+	case 1:
 		posX -= distance;
-	if (moveRight)
+		break;
+	case 2:
+		posY -= distance;
+		break;
+	case 3:
 		posX += distance;
-	if (moveUp)
+		break;
+	case 4:
 		posY += distance;
-	if (moveDown)
-		posY += distance;
+		break;
+	default:
+		posY -= distance;
+		break;
+	}
 
 	
 	//draw block
