@@ -149,6 +149,7 @@
     <ClInclude Include="LoadTexture.h" />
     <ClInclude Include="Pengo.h" />
     <ClInclude Include="RgbImage.h" />
+    <ClInclude Include="TicToc.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="glut32.lib" />

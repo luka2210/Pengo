@@ -2,13 +2,7 @@
 #include "GlobalVariables.h"
 #include "Glut.h"
 #include "LoadTexture.h"
-#include <chrono>
-#include <iostream>
-
-typedef std::chrono::high_resolution_clock Clock;
-typedef std::chrono::milliseconds milliseconds;
-
-Clock::time_point t0, t1;
+#include "TicToc.h"
 
 void drawBoard() {
 	board.draw();
@@ -74,7 +68,7 @@ void turnPengo(int direction) {
 
 	pengo.moving = true;
 	pengo.stepPos = !pengo.stepPos;
-	t0 = Clock::now();
+	tic();
 	movePengo(direction);
 }
 
@@ -98,11 +92,9 @@ void movePengo(int direction) {
 		}
 		pengo.moving = false;
 		pengo.distance = 0;
-		Clock::time_point t1 = Clock::now();
-		milliseconds ms = std::chrono::duration_cast<milliseconds>(t1 - t0);
-		std::cout << "Elapsed time is " << ms.count() << " milliseconds\n";
+		toc();
 		return;
 	}
 	
-	glutTimerFunc(10, movePengo, direction);
+	glutTimerFunc(15, movePengo, direction);
 }
