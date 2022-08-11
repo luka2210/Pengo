@@ -5,7 +5,6 @@ double Enemy::height = 1.0;
 double Enemy::width = 1.0;
 double Enemy::offsetX = 0.5;
 double Enemy::offsetY = 1.25;
-double Enemy::speed = 0.1;
 
 unsigned int Enemy::enemyDown1 = 0, Enemy::enemyDown2 = 0, Enemy::enemyUp1 = 0, Enemy::enemyUp2 = 0;
 unsigned int Enemy::enemyLeft1 = 0, Enemy::enemyLeft2 = 0, Enemy::enemyRight1 = 0, Enemy::enemyRight2 = 0;
@@ -70,9 +69,11 @@ unsigned int Enemy::pickImage() {
 
 Enemy::Enemy() {}
 
-Enemy::Enemy(int i, int j) {
+Enemy::Enemy(int i, int j, bool sweeping) {
 	this->i = i;
 	this->j = j;
+	this->sweeping = sweeping;
+	this->speed = 0.1;
 }
 
 void Enemy::draw() {

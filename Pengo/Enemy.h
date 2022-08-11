@@ -9,7 +9,6 @@ public:
 	static unsigned int enemyStunned1, enemyStunned2;
 	static double width, height;
 	static double offsetX, offsetY;
-	static double speed;
 
 	int i, j;
 	int orientation = 2;
@@ -19,8 +18,9 @@ public:
 	bool stepPos = true;
 	bool moving = false;
 	double distance = 0;
+	double speed;
 	Enemy();
-	Enemy(int i, int j);
+	Enemy(int i, int j, bool sweeping);
 	unsigned int pickImage();
 	void draw();
 };

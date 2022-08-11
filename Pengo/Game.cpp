@@ -87,6 +87,7 @@ int main( int argc, char** argv ) {
 
     initRendering();
 	loadTextures();
+	turnEnemy(0);
 
 	glutKeyboardFunc(myKeyboardFunc);
 	glutSpecialFunc(mySpecialKeyFunc);

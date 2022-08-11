@@ -3,6 +3,9 @@
 #include "Glut.h"
 #include "LoadTexture.h"
 #include "TicToc.h"
+#include <cmath>
+#include <stdlib.h>
+#include <time.h>
 
 void drawBoard() {
 	board.draw();
@@ -300,5 +303,154 @@ void blockDestroyedAnimation(int id) {
 				board.blocks.erase(blockIterator);
 			return;
 		}
+}
+
+
+void turnEnemy(int useless) {
+	for (Enemy& enemy : board.enemies) {
+		if (enemy.moving || enemy.stunned)
+			continue;
+
+		//odredi novu orijentaciju
+		if (enemy.sweeping)
+			enemy.orientation = sweepingEnemyNewOrientation(enemy);
+		else
+			enemy.orientation = enemyNewOrientation(enemy);
+
+		enemy.moving = true;
+
+		switch (enemy.orientation) {
+		case 1:
+			if (enemy.j == 0) {
+				enemy.moving = false;
+				continue;
+			}
+			for (Block& block : board.blocks)
+				if (block.i == enemy.i && block.j == enemy.j - 1) {
+					enemyBlockInteraction(enemy, block);
+					break;
+				}
+			break;
+		case 2:
+			if (enemy.i == 0) {
+				enemy.moving = false;
+				continue;
+			}
+			for (Block& block : board.blocks)
+				if (block.j == enemy.j && block.i == enemy.i - 1) {
+					enemyBlockInteraction(enemy, block);
+					continue;
+				}
+			break;
+		case 3:
+			if (enemy.j == 12) {
+				enemy.moving = false;
+				continue;
+			}
+			for (Block& block : board.blocks)
+				if (block.i == enemy.i && block.j == enemy.j + 1) {
+					enemyBlockInteraction(enemy, block);
+					continue;
+				}
+			break;
+		case 4:
+			if (enemy.i == 14) {
+				enemy.moving = false;
+				continue;
+			}
+			for (Block& block : board.blocks)
+				if (block.j == enemy.j && block.i == enemy.i + 1) {
+					enemyBlockInteraction(enemy, block);
+					continue;
+				}
+			break;
+		}
+	}
+	moveEnemy();
+	glutTimerFunc(30, turnEnemy, 0);
+}
+
+int enemyNewOrientation(Enemy& enemy) {
+	srand(time(NULL));
+	int newOrientation = rand() % 4 + 1;
+	switch (enemy.orientation) {
+	case 1:
+		if (enemy.j == 0)
+			return newOrientation;
+		for (Block& block : board.blocks)
+			if (block.i == enemy.i && block.j == enemy.j - 1)
+				return newOrientation;
+		break;
+	case 2:
+		if (enemy.i == 0)
+			return newOrientation;
+		for (Block& block : board.blocks)
+			if (block.j == enemy.j && block.i == enemy.i - 1)
+				return newOrientation;
+		break;
+	case 3:
+		if (enemy.j == 12)
+			return newOrientation;
+		for (Block& block : board.blocks)
+			if (block.i == enemy.i && block.j == enemy.j + 1)
+				return newOrientation;
+		break;
+	case 4:
+		if (enemy.i == 14)
+			return newOrientation;
+		for (Block& block : board.blocks)
+			if (block.j == enemy.j && block.i == enemy.i + 1)
+				return newOrientation;
+		break;
+	default:
+		return enemy.orientation;
+	}
+	return enemy.orientation;
+}
+
+int sweepingEnemyNewOrientation(Enemy& enemy) {
+	if (abs(enemy.i - pengo.i) < abs(enemy.j - pengo.j)) {
+		if (pengo.j < enemy.j)
+			return 1;
+		return 3;
+	}
+	if (pengo.i < enemy.i)
+			return 2;
+	return 4;
+}
+
+void moveEnemy() {
+	for (Enemy &enemy: board.enemies)
+		if (enemy.moving && !enemy.stunned) {
+			enemy.distance += enemy.speed;
+			if (enemy.distance >= 1) {
+				switch (enemy.orientation) {
+				case 1:
+					enemy.j--;
+					break;
+				case 2:
+					enemy.i--;
+					break;
+				case 3:
+					enemy.j++;
+					break;
+				case 4:
+					enemy.i++;
+					break;
+				}
+				enemy.moving = false;
+				enemy.distance = 0;
+				enemy.stepPos = !enemy.stepPos;
+			}
+		}
+}
+
+void enemyBlockInteraction(Enemy& enemy, Block& block) {
+	if (enemy.sweeping && !block.diamond) {
+		block.destroyed = true;
+		blockDestroyedAnimation(block.id);
+	}
+	else
+		enemy.moving = false;
 }
 
