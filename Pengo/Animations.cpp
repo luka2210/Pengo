@@ -447,10 +447,17 @@ void moveEnemy() {
 
 void enemyBlockInteraction(Enemy& enemy, Block& block) {
 	if (enemy.sweeping && !block.diamond) {
+		enemy.speed /= 2;
 		block.destroyed = true;
 		blockDestroyedAnimation(block.id);
+		glutTimerFunc(1000, sweepingEnemyRestoreSpeed, enemy.id);
 	}
 	else
 		enemy.moving = false;
 }
 
+void sweepingEnemyRestoreSpeed(int id) {
+	for (Enemy& enemy : board.enemies)
+		if (enemy.id == id)
+			enemy.speed *= 2;
+}

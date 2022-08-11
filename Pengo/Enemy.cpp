@@ -1,6 +1,7 @@
 #include "Enemy.h"
 #include "Glut.h"
 
+unsigned int Enemy::globalId = 0;
 double Enemy::height = 1.0;
 double Enemy::width = 1.0;
 double Enemy::offsetX = 0.5;
@@ -74,6 +75,7 @@ Enemy::Enemy(int i, int j, bool sweeping) {
 	this->j = j;
 	this->sweeping = sweeping;
 	this->speed = 0.1;
+	this->id = ++Enemy::globalId;
 }
 
 void Enemy::draw() {
@@ -98,7 +100,6 @@ void Enemy::draw() {
 		break;
 	}
 
-	//draw enemy
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, pickImage());
 

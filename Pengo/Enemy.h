@@ -9,6 +9,7 @@ public:
 	static unsigned int enemyStunned1, enemyStunned2;
 	static double width, height;
 	static double offsetX, offsetY;
+	static unsigned int globalId;
 
 	int i, j;
 	int orientation = 2;
@@ -19,6 +20,7 @@ public:
 	bool moving = false;
 	double distance = 0;
 	double speed;
+	unsigned int id;
 	Enemy();
 	Enemy(int i, int j, bool sweeping);
 	unsigned int pickImage();

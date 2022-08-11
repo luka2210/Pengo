@@ -16,3 +16,4 @@ int sweepingEnemyNewOrientation(Enemy& enemy);
 int enemyNewOrientation(Enemy& enemy);
 void moveEnemy();
 void enemyBlockInteraction(Enemy& enemy, Block& block);
+void sweepingEnemyRestoreSpeed(int id);
