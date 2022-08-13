@@ -1,5 +1,5 @@
 #include "Game.h"
-#include "Animations.h"
+#include "GameLogic.h"
 #include "Glut.h"
 
 const double Xmin = 0.0, Xmax = 14.0;
@@ -87,7 +87,6 @@ int main( int argc, char** argv ) {
 
     initRendering();
 	loadTextures();
-	turnEnemy(0);
 
 	glutKeyboardFunc(myKeyboardFunc);
 	glutSpecialFunc(mySpecialKeyFunc);

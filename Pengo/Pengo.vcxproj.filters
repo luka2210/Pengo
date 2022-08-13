@@ -39,10 +39,7 @@
     <ClInclude Include="Pengo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GlobalVariables.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Animations.h">
+    <ClInclude Include="GameLogic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TicToc.h">
@@ -79,7 +76,7 @@
     <ClCompile Include="Pengo.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Animations.cpp">
+    <ClCompile Include="GameLogic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">

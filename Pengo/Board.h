@@ -12,6 +12,7 @@ public:
 	Border border;
 	Pengo pengo;
 
+	Board();
 	Board(short blockCoords[15][13], Pengo pengo);
 	void draw();
 };

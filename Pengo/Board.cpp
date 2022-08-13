@@ -1,6 +1,13 @@
 #include "Board.h"
 #include "Glut.h"
 
+Board::Board() {
+	this->pengo = Pengo();
+	this->border = Border();
+	this->blocks = std::vector<Block>();
+	this->enemies = std::vector<Enemy>();
+}
+
 Board::Board(short blockCoords[15][13], Pengo pengo) {
 	this->pengo = pengo;
 	this->border = Border();

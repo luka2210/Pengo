@@ -139,13 +139,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Animations.h" />
+    <ClInclude Include="GameLogic.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="Border.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
-    <ClInclude Include="GlobalVariables.h" />
     <ClInclude Include="Glut.h" />
     <ClInclude Include="LoadTexture.h" />
     <ClInclude Include="Pengo.h" />
@@ -156,7 +155,7 @@
     <Library Include="glut32.lib" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Animations.cpp" />
+    <ClCompile Include="GameLogic.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="Border.cpp" />

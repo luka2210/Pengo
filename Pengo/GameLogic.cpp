@@ -1,5 +1,4 @@
-#include "Animations.h"
-#include "GlobalVariables.h"
+#include "GameLogic.h"
 #include "Glut.h"
 #include "LoadTexture.h"
 #include "TicToc.h"
@@ -7,13 +6,50 @@
 #include <stdlib.h>
 #include <time.h>
 
+int level = 0;
+bool levelInitialized = false;
+int score = 0;
+
+Board board = Board();
+Pengo& pengo = board.pengo;
+Block* pushedBlock = nullptr;
+
+void initLevel(int level) {
+	switch (level) {
+	case 1:
+		short blockCoords[15][13] = { {0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0},
+									 {0, 1, 0, 1, 1, 1, 4, 1, 1, 2, 0, 1, 0},
+									 {0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0},
+									 {0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0},
+									 {0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0},
+									 {0, 1, 0, 1, 1, 2, 1, 1, 1, 1, 0, 1, 0},
+									 {0, 1, 3, 0, 0, 1, 0, 0, 0, 1, 3, 1, 0},
+									 {0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1 ,0},
+									 {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0},
+									 {0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0},
+									 {0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0},
+									 {0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0},
+									 {0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0},
+									 {0, 1, 0, 2, 0, 1, 1, 1, 1, 1, 0, 1, 0},
+									 {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0} };
+		board = Board(blockCoords, Pengo(8, 6));
+		pengo = board.pengo;
+		break;
+	}
+}
 
 void drawBoard() {
+	if (!levelInitialized) {
+		srand(time(NULL));
+		initLevel(1);
+		levelInitialized = true;
+		turnEnemy(0);
+		enemyChangeStepPos(0);
+	}
 	board.draw();
 }
 
 void loadTextures() {
-	srand(time(NULL));
 	Block::texture = LoadTexture::file("textures/Block.bmp");
 	Block::textureDiamond = LoadTexture::file("textures/BlockDiamond.bmp");
 	Block::textureDestroyed[0] = LoadTexture::file("textures/BlockDestroyed0.bmp");
@@ -103,7 +139,6 @@ void turnPengo(int direction) {
 
 void movePengo(int direction) {
 	pengo.distance += pengo.speed;
-	//pengo.stepPos = !pengo.stepPos;
 	if (pengo.distance >= 1) {
 		switch (direction) {
 		case 1:
@@ -217,7 +252,6 @@ void pengoPushingAnimation(int stopFlag) {
 void blockPush(int direction) {
 	//ako je blok gurnut u smeru do susednog bloka i ako nije dijamant blok onda ga unisti
 	pushedBlock->orientation = direction;
-	printf("(%d, %d) %d\n", pushedBlock->i, pushedBlock->j, pushedBlock->orientation);
 	switch (pushedBlock->orientation) {
 	case 1:
 		if (pushedBlock->j == 0) {
@@ -312,8 +346,10 @@ void blockDestroyedAnimation(int id) {
 		}
 }
 
-
 void turnEnemy(int useless) {
+	if (board.enemies.empty())
+		return;
+
 	for (Enemy& enemy : board.enemies) {
 		if (enemy.moving || enemy.stunned)
 			continue;
@@ -414,7 +450,6 @@ int enemyNewOrientation(Enemy* enemy) {
 		return enemy->orientation;
 	}
 	return enemy->orientation;
-	printf("%d\n", newOrientation);
 	return newOrientation;
 }
 
@@ -450,7 +485,6 @@ void moveEnemy() {
 				}
 				enemy.moving = false;
 				enemy.distance = 0;
-				enemy.stepPos = !enemy.stepPos;
 			}
 		}
 }
@@ -465,8 +499,7 @@ void enemyBlockInteraction(Enemy* enemy, Block& block) {
 	else if (enemy->sweeping && block.diamond) {
 		enemy->stunned = true;
 		enemy->moving = false;
-		glutTimerFunc(3000, sweepingEnemyUnStun, enemy->id);
-		sweepingEnemyStunnedChangeStepPos(enemy->id);
+		glutTimerFunc(2000, sweepingEnemyUnStun, enemy->id);
 	}
 	else
 		enemy->moving = false;
@@ -484,11 +517,12 @@ void sweepingEnemyUnStun(int id) {
 			enemy.stunned = false;
 }
 
-void sweepingEnemyStunnedChangeStepPos(int id) {
+void enemyChangeStepPos(int useless) {
+	if (board.enemies.empty())
+		return;
+
 	for (Enemy& enemy : board.enemies)
-		if (enemy.id == id) 
-			if (enemy.stunned) {
-				enemy.stepPos = !enemy.stepPos;
-				glutTimerFunc(300, sweepingEnemyStunnedChangeStepPos, id);
-			}
+		enemy.stepPos = !enemy.stepPos;
+
+	glutTimerFunc(250, enemyChangeStepPos, 0);
 }

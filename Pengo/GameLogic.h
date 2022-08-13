@@ -1,6 +1,5 @@
 #pragma once
-#include "Enemy.h"
-#include "Block.h"
+#include "Board.h"
 
 void drawBoard();
 void loadTextures();
@@ -18,4 +17,4 @@ void moveEnemy();
 void enemyBlockInteraction(Enemy* enemy, Block& block);
 void sweepingEnemyRestoreSpeed(int id);
 void sweepingEnemyUnStun(int id);
-void sweepingEnemyStunnedChangeStepPos(int id);
+void enemyChangeStepPos(int useless);
