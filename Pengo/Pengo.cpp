@@ -53,29 +53,35 @@ Pengo::Pengo(int i, int j) {
 	this->j = j;
 }
 
-void Pengo::draw() {
-
+double Pengo::getPosX() {
 	double posX = j + offsetX;
-	double posY = i + offsetY;
-	
 	switch (orientation) {
 	case 1:
 		posX -= distance;
 		break;
-	case 2:
-		posY -= distance;
-		break;
 	case 3:
 		posX += distance;
+		break;
+	}
+	return posX;
+}
+
+double Pengo::getPosY() {
+	double posY = i + offsetY;
+	switch (orientation) {
+	case 2:
+		posY -= distance;
 		break;
 	case 4:
 		posY += distance;
 		break;
-	default:
-		posY -= distance;
-		break;
 	}
+	return posY;
+}
 
+void Pengo::draw() {
+	double posX = getPosX();
+	double posY = getPosY();
 
 	//draw pengo
 	glEnable(GL_TEXTURE_2D);

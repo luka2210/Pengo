@@ -19,3 +19,5 @@ void sweepingEnemyRestoreSpeed(int id);
 void sweepingEnemyUnStun(int id);
 void enemyChangeStepPos(int useless);
 void blockKillEnemies();
+void pengoEnemyInteraction();
+void pengoRespawn(int useless);

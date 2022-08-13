@@ -27,10 +27,10 @@ Board::Board(short blockCoords[15][13], Pengo pengo) {
 }
 
 void Board::draw() {
+	pengo.draw();
 	for (Enemy& enemy : enemies)
 		enemy.draw();
 	border.draw();
-	pengo.draw();	
 	for (Block& block : blocks)
 		block.draw();
 }

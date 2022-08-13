@@ -10,6 +10,7 @@ int level = 0;
 bool levelInitialized = false;
 int score = 0;
 int animationId = 0;
+int lives = 3;
 
 Board board = Board();
 Pengo& pengo = board.pengo;
@@ -97,7 +98,7 @@ void loadTextures() {
 }
 
 void turnPengo(int direction) {
-	if (pengo.moving || pengo.pushing)
+	if (pengo.moving || pengo.pushing || pengo.dead)
 		return;
 	pengo.orientation = direction;
 
@@ -140,6 +141,9 @@ void turnPengo(int direction) {
 }
 
 void movePengo(int direction) {
+	if (pengo.dead)
+		return;
+
 	pengo.distance += pengo.speed;
 	if (pengo.distance >= 1) {
 		switch (direction) {
@@ -165,7 +169,7 @@ void movePengo(int direction) {
 }
 
 void pushPengo() {
-	if (pengo.moving || pengo.pushing)
+	if (pengo.moving || pengo.pushing || pengo.dead)
 		return;
 
 	switch (pengo.orientation) {
@@ -350,11 +354,13 @@ void blockDestroyedAnimation(int id) {
 		}
 }
 
-void turnEnemy(int id) {
-	if (id != animationId)
+void turnEnemy(int animId) {
+	if (animId != animationId)
 		return;
 
 	for (Enemy& enemy : board.enemies) {
+		pengoEnemyInteraction();
+
 		if (enemy.moving || enemy.stunned)
 			continue;
 
@@ -414,7 +420,7 @@ void turnEnemy(int id) {
 		}
 	}
 	moveEnemy();
-	glutTimerFunc(30, turnEnemy, id);
+	glutTimerFunc(30, turnEnemy, animId);
 }
 
 int enemyNewOrientation(Enemy* enemy) {
@@ -538,4 +544,28 @@ void blockKillEnemies() {
 			score += 1000;
 			return;
 		}
+}
+
+void pengoEnemyInteraction() {
+	if (pengo.dead)
+		return;
+
+	for (auto enemyIterator = board.enemies.begin(); enemyIterator < board.enemies.end(); enemyIterator++)
+		if (abs((*enemyIterator).getPosX() - pengo.getPosX()) < 0.75 && abs((*enemyIterator).getPosY() - pengo.getPosY()) < 0.75) {
+			if ((*enemyIterator).stunned) {
+				board.enemies.erase(enemyIterator);
+				score += 500;
+			}
+			else {
+				pengo.dead = true;
+				lives--;
+				glutTimerFunc(3000, pengoRespawn, 0);
+			}
+			return;
+		}
+}
+
+void pengoRespawn(int useless) {
+	board.pengo = Pengo(8, 6);
+	pengo = board.pengo;
 }

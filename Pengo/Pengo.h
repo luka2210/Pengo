@@ -14,9 +14,12 @@ public:
 	bool moving = false, pushing = false;
 	double distance = 0;
 	bool stepPos = true;
+	bool dead = false;
 	Pengo();
 	Pengo(int i, int j);
 	unsigned int pickImage();
+	double getPosX();
+	double getPosY();
 	void draw();
 };
 
