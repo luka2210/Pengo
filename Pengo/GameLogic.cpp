@@ -3,14 +3,15 @@
 #include "LoadTexture.h"
 #include "TicToc.h"
 #include <cmath>
-#include <stdlib.h>
 #include <time.h>
+#include "WriteText.h"
 
 int level = 0;
 bool levelInitialized = false;
 int score = 0;
 int animationId = 0;
 int lives = 3;
+int timeLeft = 100;
 
 Board board = Board();
 Pengo& pengo = board.pengo;
@@ -48,11 +49,19 @@ void drawBoard() {
 		initLevel(1);
 		turnEnemy(animationId);
 		enemyChangeStepPos(animationId);
+		timeLeft = 100;
 	}
-	glColor3f(1, 0, 1);
-	glRasterPos2f(1.0, 1.0);
-	glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, 'a');
 	board.draw();
+	drawText(0.0, 0.0, "LEVEL: ", level + 1);
+}
+
+void drawText(double posX, double posY, std::string text, int number) {
+	text.append(std::to_string(number));
+	glColor3f(1.0, 1.0, 1.0);
+	glRasterPos2f(posX, posY);
+	glScalef(1.5, 1.5, 0.0);
+	for (char ch : text) 
+		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, ch);
 }
 
 void loadTextures() {
@@ -101,6 +110,21 @@ void loadTextures() {
 	Enemy::enemySweepRight2 = LoadTexture::file("textures/EnemySweepRight2.bmp");
 	Enemy::enemyStunned1 = LoadTexture::file("textures/EnemyStunned1.bmp");
 	Enemy::enemyStunned2 = LoadTexture::file("textures/EnemyStunned2.bmp");
+	WriteText::ja = LoadTexture::file("textures/Ja.bmp");
+	WriteText::level = LoadTexture::file("textures/Level.bmp");
+	WriteText::lives = LoadTexture::file("textures/Lives.bmp");
+	WriteText::score = LoadTexture::file("textures/Score.bmp");
+	WriteText::time = LoadTexture::file("textures/Time.bmp");
+	WriteText::numbers[0] = LoadTexture::file("textures/0.bmp");
+	WriteText::numbers[1] = LoadTexture::file("textures/1.bmp");
+	WriteText::numbers[2] = LoadTexture::file("textures/2.bmp");
+	WriteText::numbers[3] = LoadTexture::file("textures/3.bmp");
+	WriteText::numbers[4] = LoadTexture::file("textures/4.bmp");
+	WriteText::numbers[5] = LoadTexture::file("textures/5.bmp");
+	WriteText::numbers[6] = LoadTexture::file("textures/6.bmp");
+	WriteText::numbers[7] = LoadTexture::file("textures/7.bmp");
+	WriteText::numbers[8] = LoadTexture::file("textures/8.bmp");
+	WriteText::numbers[9] = LoadTexture::file("textures/9.bmp");
 }
 
 void turnPengo(int direction) {
@@ -600,5 +624,15 @@ void pengoDeadStepPos(int useless) {
 	if (pengo.dead) {
 		pengo.stepPos = !pengo.stepPos;
 		glutTimerFunc(200, pengoDeadStepPos, 0);
+	}
+}
+
+void timerTick(int animId) {
+	if (animId != animationId)
+		return;
+
+	if (timeLeft > 0) {
+		timeLeft--;
+		glutTimerFunc(1000, timerTick, animId);
 	}
 }

@@ -150,6 +150,7 @@
     <ClInclude Include="Pengo.h" />
     <ClInclude Include="RgbImage.h" />
     <ClInclude Include="TicToc.h" />
+    <ClInclude Include="WriteText.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="glut32.lib" />
@@ -164,6 +165,7 @@
     <ClCompile Include="Pengo.cpp" />
     <ClCompile Include="RgbImage.cpp" />
     <ClCompile Include="LoadTexture.cpp" />
+    <ClCompile Include="WriteText.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
