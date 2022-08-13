@@ -330,6 +330,7 @@ void blockPush(int direction) {
 void checkIfBlockShouldBeDestroyed() {
 	if (!pushedBlock->moving && !pushedBlock->diamond) {
 		pushedBlock->destroyed = true;
+		score += 100;
 		blockDestroyedAnimation(pushedBlock->id);
 	}
 	else 
@@ -534,6 +535,7 @@ void blockKillEnemies() {
 	for (auto enemyIterator = board.enemies.begin(); enemyIterator < board.enemies.end(); enemyIterator++)
 		if (abs((*enemyIterator).getPosX() - pushedBlock->getPosX()) < 0.75 && abs((*enemyIterator).getPosY() - pushedBlock->getPosY()) < 0.75) {
 			board.enemies.erase(enemyIterator);
+			score += 1000;
 			return;
 		}
 }
