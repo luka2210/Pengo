@@ -21,3 +21,6 @@ void enemyChangeStepPos(int useless);
 void blockKillEnemies();
 void pengoEnemyInteraction();
 void pengoRespawn(int useless);
+void pengoNoLongerIndestructable(int useless);
+void pengoIndestructableStepPos(int useless);
+void pengoDeadStepPos(int useless);

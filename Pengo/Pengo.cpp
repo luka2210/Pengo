@@ -11,8 +11,18 @@ double Pengo::speed = 0.1;
 unsigned int Pengo::pengoLeft1 = 0, Pengo::pengoLeft2 = 0, Pengo::pengoRight1 = 0, Pengo::pengoRight2 = 0;
 unsigned int Pengo::pengoUp1 = 0, Pengo::pengoUp2 = 0, Pengo::pengoDown1 = 0, Pengo::pengoDown2 = 0;
 unsigned int Pengo::pengoPushUp = 0, Pengo::pengoPushDown = 0, Pengo::pengoPushLeft = 0, Pengo::pengoPushRight = 0;
+unsigned int Pengo::pengoDead1 = 0, Pengo::pengoDead2 = 0, Pengo::pengoIndestructable = 0;
 
 unsigned int Pengo::pickImage() {
+	if (dead) {
+		if (stepPos)
+			return pengoDead1;
+		return pengoDead2;
+	}
+
+	if (indestructable && stepPosIndestructable)
+		return pengoIndestructable;
+
 	switch (orientation) {
 	case 1:
 		if (pushing)

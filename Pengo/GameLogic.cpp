@@ -75,6 +75,9 @@ void loadTextures() {
 	Pengo::pengoPushUp = LoadTexture::file("textures/PengoPushUp.bmp");
 	Pengo::pengoPushLeft = LoadTexture::file("textures/PengoPushLeft.bmp");
 	Pengo::pengoPushRight = LoadTexture::file("textures/PengoPushRight.bmp");
+	Pengo::pengoDead1 = LoadTexture::file("textures/PengoDead1.bmp");
+	Pengo::pengoDead2 = LoadTexture::file("textures/PengoDead2.bmp");
+	Pengo::pengoIndestructable = LoadTexture::file("textures/PengoIndestructable.bmp");
 	Border::borderHorizontal = LoadTexture::file("textures/BorderHorizontal.bmp");
 	Border::borderVertical = LoadTexture::file("textures/BorderVertical.bmp");
 	Enemy::enemyDown1 = LoadTexture::file("textures/EnemyDown1.bmp");
@@ -556,10 +559,11 @@ void pengoEnemyInteraction() {
 				board.enemies.erase(enemyIterator);
 				score += 500;
 			}
-			else {
+			else if (!pengo.indestructable) {
 				pengo.dead = true;
 				lives--;
 				glutTimerFunc(3000, pengoRespawn, 0);
+				pengoDeadStepPos(0);
 			}
 			return;
 		}
@@ -568,4 +572,25 @@ void pengoEnemyInteraction() {
 void pengoRespawn(int useless) {
 	board.pengo = Pengo(8, 6);
 	pengo = board.pengo;
+	pengo.indestructable = true;
+	glutTimerFunc(3000, pengoNoLongerIndestructable, 0);
+	pengoIndestructableStepPos(0);
+}
+
+void pengoNoLongerIndestructable(int useless) {
+	pengo.indestructable = false;
+}
+
+void pengoIndestructableStepPos(int useless) {
+	if (pengo.indestructable) {
+		pengo.stepPosIndestructable = !pengo.stepPosIndestructable;
+		glutTimerFunc(30, pengoIndestructableStepPos, 0);
+	}
+}
+
+void pengoDeadStepPos(int useless) {
+	if (pengo.dead) {
+		pengo.stepPos = !pengo.stepPos;
+		glutTimerFunc(200, pengoDeadStepPos, 0);
+	}
 }
