@@ -18,3 +18,4 @@ void enemyBlockInteraction(Enemy* enemy, Block& block);
 void sweepingEnemyRestoreSpeed(int id);
 void sweepingEnemyUnStun(int id);
 void enemyChangeStepPos(int useless);
+void blockKillEnemies();

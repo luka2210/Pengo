@@ -9,6 +9,7 @@
 int level = 0;
 bool levelInitialized = false;
 int score = 0;
+int animationId = 0;
 
 Board board = Board();
 Pengo& pengo = board.pengo;
@@ -18,7 +19,7 @@ void initLevel(int level) {
 	switch (level) {
 	case 1:
 		short blockCoords[15][13] = { {0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0},
-									 {0, 1, 0, 1, 1, 1, 4, 1, 1, 2, 0, 1, 0},
+									 {0, 1, 0, 1, 1, 1, 3, 1, 1, 2, 0, 1, 0},
 									 {0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0},
 									 {0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0},
 									 {0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0},
@@ -41,10 +42,11 @@ void initLevel(int level) {
 void drawBoard() {
 	if (!levelInitialized) {
 		srand(time(NULL));
-		initLevel(1);
 		levelInitialized = true;
-		turnEnemy(0);
-		enemyChangeStepPos(0);
+		animationId++;
+		initLevel(1);
+		turnEnemy(animationId);
+		enemyChangeStepPos(animationId);
 	}
 	board.draw();
 }
@@ -303,6 +305,7 @@ void blockPush(int direction) {
 
 	pushedBlock->moving = true;
 	pushedBlock->distance += pushedBlock->speed;
+	blockKillEnemies();
 	if (pushedBlock->distance >= 1) {
 		switch (pushedBlock->orientation) {
 		case 1:
@@ -346,8 +349,8 @@ void blockDestroyedAnimation(int id) {
 		}
 }
 
-void turnEnemy(int useless) {
-	if (board.enemies.empty())
+void turnEnemy(int id) {
+	if (id != animationId)
 		return;
 
 	for (Enemy& enemy : board.enemies) {
@@ -410,7 +413,7 @@ void turnEnemy(int useless) {
 		}
 	}
 	moveEnemy();
-	glutTimerFunc(30, turnEnemy, 0);
+	glutTimerFunc(30, turnEnemy, id);
 }
 
 int enemyNewOrientation(Enemy* enemy) {
@@ -517,12 +520,20 @@ void sweepingEnemyUnStun(int id) {
 			enemy.stunned = false;
 }
 
-void enemyChangeStepPos(int useless) {
-	if (board.enemies.empty())
+void enemyChangeStepPos(int animId) {
+	if (animId != animationId)
 		return;
 
 	for (Enemy& enemy : board.enemies)
 		enemy.stepPos = !enemy.stepPos;
 
-	glutTimerFunc(250, enemyChangeStepPos, 0);
+	glutTimerFunc(250, enemyChangeStepPos, animId);
+}
+
+void blockKillEnemies() {
+	for (auto enemyIterator = board.enemies.begin(); enemyIterator < board.enemies.end(); enemyIterator++)
+		if (abs((*enemyIterator).getPosX() - pushedBlock->getPosX()) < 0.75 && abs((*enemyIterator).getPosY() - pushedBlock->getPosY()) < 0.75) {
+			board.enemies.erase(enemyIterator);
+			return;
+		}
 }

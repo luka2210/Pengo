@@ -24,5 +24,7 @@ public:
 	Enemy();
 	Enemy(int i, int j, bool sweeping);
 	unsigned int pickImage();
+	double getPosX();
+	double getPosY();
 	void draw();
 };

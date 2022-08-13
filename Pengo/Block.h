@@ -20,7 +20,8 @@ public:
 
 	Block(int i, int j, bool diamond);
 	unsigned int getImage();
+	double getPosX();
+	double getPosY();
 	void draw();
-	void move();
 };
 

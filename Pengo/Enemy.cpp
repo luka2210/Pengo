@@ -78,27 +78,35 @@ Enemy::Enemy(int i, int j, bool sweeping) {
 	this->id = ++Enemy::globalId;
 }
 
-void Enemy::draw() {
+double Enemy::getPosX() {
 	double posX = j + offsetX;
-	double posY = i + offsetY;
-	
 	switch (orientation) {
 	case 1:
 		posX -= distance;
 		break;
-	case 2:
-		posY -= distance;
-		break;
 	case 3:
 		posX += distance;
+		break;
+	}
+	return posX;
+}
+
+double Enemy::getPosY() {
+	double posY = i + offsetY;
+	switch (orientation) {
+	case 2:
+		posY -= distance;
 		break;
 	case 4:
 		posY += distance;
 		break;
-	default:
-		posY -= distance;
-		break;
 	}
+	return posY;
+}
+
+void Enemy::draw() {
+	double posX = getPosX();
+	double posY = getPosY();
 
 	glEnable(GL_TEXTURE_2D);
 	glBindTexture(GL_TEXTURE_2D, pickImage());

@@ -26,28 +26,36 @@ GLuint Block::getImage() {
 	return texture;
 }
 
-void Block::draw() {
-	//position of the block
+double Block::getPosX() {
 	double posX = j + offsetX;
-	double posY = i + offsetY;
 	switch (orientation) {
 	case 1:
 		posX -= distance;
 		break;
-	case 2:
-		posY -= distance;
-		break;
 	case 3:
 		posX += distance;
+		break;
+	}
+	return posX;
+}
+
+double Block::getPosY() {
+	double posY = i + offsetY;
+	switch (orientation) {
+	case 2:
+		posY -= distance;
 		break;
 	case 4:
 		posY += distance;
 		break;
-	default:
-		posY -= distance;
-		break;
 	}
+	return posY;
+}
 
+void Block::draw() {
+	//position of the block
+	double posX = getPosX();
+	double posY = getPosY();
 	
 	//draw block
 	glEnable(GL_TEXTURE_2D);
@@ -66,10 +74,3 @@ void Block::draw() {
 
 	glDisable(GL_TEXTURE_2D);
 }
-
-void Block::move()
-{
-}
-
-
-
