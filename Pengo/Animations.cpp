@@ -7,11 +7,13 @@
 #include <stdlib.h>
 #include <time.h>
 
+
 void drawBoard() {
 	board.draw();
 }
 
 void loadTextures() {
+	srand(time(NULL));
 	Block::texture = LoadTexture::file("textures/Block.bmp");
 	Block::textureDiamond = LoadTexture::file("textures/BlockDiamond.bmp");
 	Block::textureDestroyed[0] = LoadTexture::file("textures/BlockDestroyed0.bmp");
@@ -56,7 +58,6 @@ void loadTextures() {
 	Enemy::enemyStunned2 = LoadTexture::file("textures/EnemyStunned2.bmp");
 }
 
-
 void turnPengo(int direction) {
 	if (pengo.moving || pengo.pushing)
 		return;
@@ -97,7 +98,6 @@ void turnPengo(int direction) {
 
 	pengo.moving = true;
 	pengo.stepPos = !pengo.stepPos;
-	tic();
 	movePengo(direction);
 }
 
@@ -121,7 +121,6 @@ void movePengo(int direction) {
 		}
 		pengo.moving = false;
 		pengo.distance = 0;
-		toc();
 		return;
 	}
 	
@@ -142,9 +141,11 @@ void pushPengo() {
 			if (block.i == pengo.i && block.j == pengo.j - 1) {
 				if (block.destroyed)
 					return;
-				pengoPushingAnimation(0);
-				pushedBlock = &block;
-				blockPush(pengo.orientation);
+				if (!block.destroyed) {
+					pengoPushingAnimation(0);
+					pushedBlock = &block;
+					blockPush(pengo.orientation);
+				}
 				return;
 			}
 		return;
@@ -157,9 +158,11 @@ void pushPengo() {
 			if (block.j == pengo.j && block.i == pengo.i - 1) {
 				if (block.destroyed)
 					return;
-				pengoPushingAnimation(0);
-				pushedBlock = &block;
-				blockPush(pengo.orientation);
+				if (!block.destroyed) {
+					pengoPushingAnimation(0);
+					pushedBlock = &block;
+					blockPush(pengo.orientation);
+				}
 				return;
 			}
 		return;
@@ -172,9 +175,11 @@ void pushPengo() {
 			if (block.i == pengo.i && block.j == pengo.j + 1) {
 				if (block.destroyed)
 					return;
-				pengoPushingAnimation(0);
-				pushedBlock = &block;
-				blockPush(pengo.orientation);
+				if (!block.destroyed) {
+					pengoPushingAnimation(0);
+					pushedBlock = &block;
+					blockPush(pengo.orientation);
+				}
 				return;
 			}
 		return;
@@ -187,9 +192,11 @@ void pushPengo() {
 			if (block.j == pengo.j && block.i == pengo.i + 1) {
 				if (block.destroyed)
 					return;
-				pengoPushingAnimation(0);
-				pushedBlock = &block;
-				blockPush(pengo.orientation);
+				if (!block.destroyed) {
+					pengoPushingAnimation(0);
+					pushedBlock = &block;
+					blockPush(pengo.orientation);
+				}
 				return;
 			}
 		return;
@@ -313,9 +320,9 @@ void turnEnemy(int useless) {
 
 		//odredi novu orijentaciju
 		if (enemy.sweeping)
-			enemy.orientation = sweepingEnemyNewOrientation(enemy);
+			enemy.orientation = sweepingEnemyNewOrientation(&enemy);
 		else
-			enemy.orientation = enemyNewOrientation(enemy);
+			enemy.orientation = enemyNewOrientation(&enemy);
 
 		enemy.moving = true;
 
@@ -327,7 +334,7 @@ void turnEnemy(int useless) {
 			}
 			for (Block& block : board.blocks)
 				if (block.i == enemy.i && block.j == enemy.j - 1) {
-					enemyBlockInteraction(enemy, block);
+					enemyBlockInteraction(&enemy, block);
 					break;
 				}
 			break;
@@ -338,8 +345,8 @@ void turnEnemy(int useless) {
 			}
 			for (Block& block : board.blocks)
 				if (block.j == enemy.j && block.i == enemy.i - 1) {
-					enemyBlockInteraction(enemy, block);
-					continue;
+					enemyBlockInteraction(&enemy, block);
+					break;
 				}
 			break;
 		case 3:
@@ -349,8 +356,8 @@ void turnEnemy(int useless) {
 			}
 			for (Block& block : board.blocks)
 				if (block.i == enemy.i && block.j == enemy.j + 1) {
-					enemyBlockInteraction(enemy, block);
-					continue;
+					enemyBlockInteraction(&enemy, block);
+					break;
 				}
 			break;
 		case 4:
@@ -360,8 +367,8 @@ void turnEnemy(int useless) {
 			}
 			for (Block& block : board.blocks)
 				if (block.j == enemy.j && block.i == enemy.i + 1) {
-					enemyBlockInteraction(enemy, block);
-					continue;
+					enemyBlockInteraction(&enemy, block);
+					break;
 				}
 			break;
 		}
@@ -370,51 +377,54 @@ void turnEnemy(int useless) {
 	glutTimerFunc(30, turnEnemy, 0);
 }
 
-int enemyNewOrientation(Enemy& enemy) {
-	srand(time(NULL));
+int enemyNewOrientation(Enemy* enemy) {
+
 	int newOrientation = rand() % 4 + 1;
-	switch (enemy.orientation) {
+
+	switch (enemy->orientation) {
 	case 1:
-		if (enemy.j == 0)
+		if (enemy->j == 0)
 			return newOrientation;
 		for (Block& block : board.blocks)
-			if (block.i == enemy.i && block.j == enemy.j - 1)
+			if (block.i == enemy->i && block.j == enemy->j - 1)
 				return newOrientation;
 		break;
 	case 2:
-		if (enemy.i == 0)
+		if (enemy->i == 0)
 			return newOrientation;
 		for (Block& block : board.blocks)
-			if (block.j == enemy.j && block.i == enemy.i - 1)
+			if (block.j == enemy->j && block.i == enemy->i - 1)
 				return newOrientation;
 		break;
 	case 3:
-		if (enemy.j == 12)
+		if (enemy->j == 12)
 			return newOrientation;
 		for (Block& block : board.blocks)
-			if (block.i == enemy.i && block.j == enemy.j + 1)
+			if (block.i == enemy->i && block.j == enemy->j + 1)
 				return newOrientation;
 		break;
 	case 4:
-		if (enemy.i == 14)
+		if (enemy->i == 14)
 			return newOrientation;
 		for (Block& block : board.blocks)
-			if (block.j == enemy.j && block.i == enemy.i + 1)
+			if (block.j == enemy->j && block.i == enemy->i + 1)
 				return newOrientation;
 		break;
 	default:
-		return enemy.orientation;
+		return enemy->orientation;
 	}
-	return enemy.orientation;
+	return enemy->orientation;
+	printf("%d\n", newOrientation);
+	return newOrientation;
 }
 
-int sweepingEnemyNewOrientation(Enemy& enemy) {
-	if (abs(enemy.i - pengo.i) < abs(enemy.j - pengo.j)) {
-		if (pengo.j < enemy.j)
+int sweepingEnemyNewOrientation(Enemy* enemy) {
+	if (abs(enemy->i - pengo.i) < abs(enemy->j - pengo.j)) {
+		if (pengo.j < enemy->j)
 			return 1;
 		return 3;
 	}
-	if (pengo.i < enemy.i)
+	if (pengo.i < enemy->i)
 			return 2;
 	return 4;
 }
@@ -445,19 +455,40 @@ void moveEnemy() {
 		}
 }
 
-void enemyBlockInteraction(Enemy& enemy, Block& block) {
-	if (enemy.sweeping && !block.diamond) {
-		enemy.speed /= 3;
+void enemyBlockInteraction(Enemy* enemy, Block& block) {
+	if (enemy->sweeping && !block.diamond) {
+		enemy->speed /= 3;
 		block.destroyed = true;
 		blockDestroyedAnimation(block.id);
-		glutTimerFunc(750, sweepingEnemyRestoreSpeed, enemy.id);
+		glutTimerFunc(750, sweepingEnemyRestoreSpeed, enemy->id);
+	}
+	else if (enemy->sweeping && block.diamond) {
+		enemy->stunned = true;
+		enemy->moving = false;
+		glutTimerFunc(3000, sweepingEnemyUnStun, enemy->id);
+		sweepingEnemyStunnedChangeStepPos(enemy->id);
 	}
 	else
-		enemy.moving = false;
+		enemy->moving = false;
 }
 
 void sweepingEnemyRestoreSpeed(int id) {
 	for (Enemy& enemy : board.enemies)
 		if (enemy.id == id)
 			enemy.speed *= 3;
+}
+
+void sweepingEnemyUnStun(int id) {
+	for (Enemy& enemy : board.enemies)
+		if (enemy.id == id)
+			enemy.stunned = false;
+}
+
+void sweepingEnemyStunnedChangeStepPos(int id) {
+	for (Enemy& enemy : board.enemies)
+		if (enemy.id == id) 
+			if (enemy.stunned) {
+				enemy.stepPos = !enemy.stepPos;
+				glutTimerFunc(300, sweepingEnemyStunnedChangeStepPos, id);
+			}
 }
