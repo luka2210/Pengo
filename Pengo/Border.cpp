@@ -6,6 +6,7 @@ unsigned int Border::borderHorizontal = 0, Border::borderVertical = 0;
 Border::Border() {}
 
 void Border::draw() {
+	glColor3f(1, 1, 1);
 	glEnable(GL_TEXTURE_2D);
 	//glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 

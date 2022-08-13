@@ -8,7 +8,7 @@ unsigned int LoadTexture::file(const char* filename) {
 	glEnable(GL_DEPTH_TEST);
 
 	RgbImage theTexMap(filename);
-	
+
 	unsigned int texture;
 	glGenTextures(1, &texture);
 	glBindTexture(GL_TEXTURE_2D, texture);
@@ -22,6 +22,5 @@ unsigned int LoadTexture::file(const char* filename) {
 	gluBuild2DMipmaps(GL_TEXTURE_2D, 3, theTexMap.GetNumCols(), theTexMap.GetNumRows(),
 		GL_RGB, GL_UNSIGNED_BYTE, theTexMap.ImageData());
 
-	printf("%d\n", texture);
 	return texture;
 }

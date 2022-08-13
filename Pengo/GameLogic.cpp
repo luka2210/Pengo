@@ -49,6 +49,9 @@ void drawBoard() {
 		turnEnemy(animationId);
 		enemyChangeStepPos(animationId);
 	}
+	glColor3f(1, 0, 1);
+	glRasterPos2f(1.0, 1.0);
+	glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, 'a');
 	board.draw();
 }
 
@@ -570,6 +573,11 @@ void pengoEnemyInteraction() {
 }
 
 void pengoRespawn(int useless) {
+	for (Block& block : board.blocks) 
+		if (block.i == 8 && block.j == 6) {
+			block.destroyed = true;
+			blockDestroyedAnimation(block.id);
+		}
 	board.pengo = Pengo(8, 6);
 	pengo = board.pengo;
 	pengo.indestructable = true;
