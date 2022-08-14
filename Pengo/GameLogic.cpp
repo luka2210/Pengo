@@ -541,7 +541,7 @@ void turnEnemy(int animId) {
 		}
 	}
 	moveEnemy();
-	glutTimerFunc(30, turnEnemy, animId);
+	glutTimerFunc(25, turnEnemy, animId);
 }
 
 int enemyNewOrientation(Enemy* enemy) {
@@ -604,6 +604,10 @@ int enemyNewOrientation(Enemy* enemy) {
 }
 
 int sweepingEnemyNewOrientation(Enemy* enemy) {
+	int coinToss = rand() % 3;
+	if (coinToss == 2)
+		return rand() % 4 + 1;
+
 	if (abs(enemy->i - pengo.i) < abs(enemy->j - pengo.j)) {
 		if (pengo.j < enemy->j)
 			return 1;
@@ -807,9 +811,13 @@ void destroyEverything() {
 
 void allEnemiesDefeated() {
 	if (board.enemies.empty()) {
-		levelCleared = true;
 		score += timeLeft * 10;
-		glutTimerFunc(5000, startNewLevel, animationId);
+		if (level < 4) {
+			levelCleared = true;
+			glutTimerFunc(5000, startNewLevel, animationId);
+		}
+		else
+			gameWon = true;
 	}
 }
 
@@ -817,10 +825,6 @@ void startNewLevel(int animId) {
 	if (animId != animationId)
 		return;
 
-	if (level < 4) {
-		levelInitialized = false;
-		level++;
-	}
-	else
-		gameWon = true;
+	levelInitialized = false;
+	level++;
 }
