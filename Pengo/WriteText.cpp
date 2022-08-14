@@ -2,14 +2,19 @@
 #include "Glut.h"
 
 unsigned int WriteText::ja = 0, WriteText::level = 0, WriteText::score = 0, WriteText::lives = 0, WriteText::time = 0;
+unsigned int WriteText::gameOver = 0, WriteText::pressEnter = 0;
 unsigned int WriteText::numbers[10] = { 0 };
 
-void WriteText::writeEverything(int level, int score, int lives, int time) {
+void WriteText::writeEverything(int level, int score, int lives, int time, bool gameOver) {
 	simpleWrite(7.0, 0.05, 7.0, 0.65, ja, -1);
 	simpleWrite(0.0, 0.05, 2.7, 0.65, WriteText::score, score);
 	simpleWrite(0.0, 17.0, 2.7, 0.65, WriteText::lives, lives);
 	simpleWrite(4.8, 17.0, 2.2, 0.65, WriteText::time, time);
 	simpleWrite(10.5, 17.0, 2.7, 0.65, WriteText::level, level + 1);
+	if (gameOver) {
+		simpleWrite(4.0, 10.0, 6.0, 2.0, WriteText::gameOver, -1);
+		simpleWrite(2.0, 8.5, 10.0, 2.0, WriteText::pressEnter, -1);
+	}
 }
 
 void WriteText::simpleWrite(double posX, double posY, double width, double height, unsigned int texture, int number) {

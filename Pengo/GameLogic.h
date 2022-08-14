@@ -28,3 +28,4 @@ void pengoDeadStepPos(int useless);
 void timerTick(int animId);
 void diamondBlocksTogether(int animId);
 void destroyEverything();
+void restartGame(unsigned char key);

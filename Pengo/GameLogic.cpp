@@ -12,15 +12,17 @@ int score = 0;
 int animationId = 0;
 int lives = 3;
 int timeLeft = 0;
+bool gameOver = false;
+bool gameWon = false;
+
 
 Board board = Board();
 Pengo& pengo = board.pengo;
 Block* pushedBlock = nullptr;
 
-
 void initLevel(int level) {
 	switch (level) {
-	case 1:
+	case 0:
 		short blockCoords[15][13] = { {0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0},
 									 {0, 1, 0, 1, 1, 1, 3, 1, 1, 1, 0, 1, 0},
 									 {0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0},
@@ -50,14 +52,24 @@ void drawBoard() {
 		animationId++;
 		timeLeft = 200;
 
-		initLevel(1);
+		initLevel(0);
 		turnEnemy(animationId);
 		enemyChangeStepPos(animationId);
 		glutTimerFunc(1000, timerTick, animationId);
 		glutTimerFunc(1000, diamondBlocksTogether, animationId);
 	}
+	WriteText::writeEverything(level, score, lives, timeLeft, gameOver);
 	board.draw();
-	WriteText::writeEverything(level, score, lives, timeLeft);
+}
+
+void restartGame(unsigned char key) {
+	if (gameOver || gameWon || key == 27) {
+		level = 0;
+		levelInitialized = false;
+		score = 0;
+		gameOver = false;
+		gameWon = false;
+	}
 }
 
 void loadTextures() {
@@ -121,6 +133,8 @@ void loadTextures() {
 	WriteText::numbers[7] = LoadTexture::file("textures/7.bmp");
 	WriteText::numbers[8] = LoadTexture::file("textures/8.bmp");
 	WriteText::numbers[9] = LoadTexture::file("textures/9.bmp");
+	WriteText::gameOver = LoadTexture::file("textures/GameOver.bmp");
+	WriteText::pressEnter = LoadTexture::file("textures/PressEnter.bmp");
 }
 
 void turnPengo(int direction) {
@@ -604,7 +618,11 @@ void pengoEnemyInteraction() {
 			else if (!pengo.indestructable) {
 				pengo.dead = true;
 				lives--;
-				glutTimerFunc(3000, pengoRespawn, 0);
+				if (lives > 0) 
+					glutTimerFunc(3000, pengoRespawn, 0);
+				else {
+					gameOver = true;
+				}
 				pengoDeadStepPos(0);
 			}
 			return;
@@ -649,6 +667,11 @@ void timerTick(int animId) {
 	if (timeLeft > 0) {
 		timeLeft--;
 		glutTimerFunc(1000, timerTick, animId);
+	}
+	else if (!pengo.dead) {
+		pengo.dead = true;
+		gameOver = true;
+		pengoDeadStepPos(0);
 	}
 }
 

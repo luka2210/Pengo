@@ -8,6 +8,8 @@ const double Ymin = 0.0, Ymax = 18.0;
 void myKeyboardFunc( unsigned char key, int x, int y ) {
 	if (key == 'Z' || key == 'z')
 		pushPengo();
+	if (key == 13 || key == 27)
+		restartGame(key);
 }
 
 void mySpecialKeyFunc( int key, int x, int y ) {
