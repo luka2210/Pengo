@@ -14,33 +14,107 @@ int lives = 3;
 int timeLeft = 0;
 bool gameOver = false;
 bool gameWon = false;
-
+bool levelCleared = false;
 
 Board board = Board();
 Pengo& pengo = board.pengo;
 Block* pushedBlock = nullptr;
 
 void initLevel(int level) {
-	switch (level) {
-	case 0:
+	if (level == 0) {
 		short blockCoords[15][13] = { {0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0},
-									 {0, 1, 0, 1, 1, 1, 3, 1, 1, 1, 0, 1, 0},
-									 {0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0},
-									 {0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0},
-									 {0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0},
-									 {0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0},
-									 {0, 1, 3, 0, 0, 1, 0, 0, 0, 1, 3, 1, 0},
-									 {0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1 ,0},
-									 {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0},
-									 {0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0},
-									 {0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0},
-									 {0, 1, 0, 2, 2, 0, 0, 1, 0, 1, 1, 1, 0},
-									 {0, 1, 0, 0, 0, 2, 0, 1, 0, 0, 0, 1, 0},
-									 {0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0},
-									 {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0} };
+									  {0, 1, 0, 1, 1, 1, 0, 1, 1, 2, 0, 1, 0},
+									  {0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0},
+									  {0, 1, 1, 3, 1, 1, 1, 1, 0, 1, 1, 1, 0},
+									  {0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0},
+									  {0, 3, 0, 1, 1, 2, 1, 1, 1, 3, 0, 1, 0},
+									  {0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0},
+									  {0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0},
+									  {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0},
+									  {0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0},
+									  {0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0},
+									  {0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0},
+									  {0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0},
+									  {0, 1, 0, 2, 0, 1, 1, 1, 1, 1, 0, 1, 0},
+									  {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0} };
 		board = Board(blockCoords, Pengo(8, 6));
 		pengo = board.pengo;
-		break;
+	}
+	else if (level == 1) {
+		short blockCoords[15][13] = { {0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0},
+									  {4, 1, 0, 1, 1, 1, 1, 3, 1, 1, 0, 2, 0},
+									  {0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0},
+									  {0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 0},
+									  {0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0},
+									  {1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 3, 0},
+									  {0, 1, 0, 0, 0, 0, 0, 1, 0, 2, 0, 1, 1},
+									  {0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 0},
+									  {0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0},
+									  {0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0},
+									  {0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0},
+									  {0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 1, 0, 1},
+									  {0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0},
+									  {1, 1, 0, 1, 0, 2, 0, 1, 1, 1, 1, 1, 0},
+									  {0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0} };
+		board = Board(blockCoords, Pengo(8, 6));
+		pengo = board.pengo;
+	}
+	else if (level == 2) {
+		short blockCoords[15][13] = { {0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 4},
+									  {0, 1, 0, 1, 3, 1, 1, 2, 0, 1, 0, 1, 1},
+									  {0, 0, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0},
+									  {1, 1, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0},
+									  {0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0},
+									  {0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0},
+									  {0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0},
+									  {0, 2, 0, 3, 0, 1, 1, 1, 1, 1, 0, 1 ,0},
+									  {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
+									  {0, 1, 1, 1, 0, 1, 0, 1, 0, 3, 0, 1, 0},
+									  {0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 1, 0},
+									  {1, 1, 1, 2, 1, 3, 0, 1, 0, 1, 0, 1, 0},
+									  {0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0},
+									  {0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0},
+									  {0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0} };
+		board = Board(blockCoords, Pengo(8, 6));
+		pengo = board.pengo;
+	}
+	else if (level == 3) {
+		short blockCoords[15][13] = { {0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0},
+									  {0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 1, 1, 0},
+									  {0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0},
+									  {1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 1, 1},
+									  {0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0},
+									  {0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0},
+									  {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
+									  {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1 ,0},
+									  {0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0},
+									  {0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0},
+									  {0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0},
+									  {0, 2, 0, 4, 0, 1, 1, 1, 0, 1, 1, 2, 0},
+									  {0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 1, 0},
+									  {1, 1, 0, 3, 1, 2, 0, 1, 0, 1, 4, 1, 0},
+									  {0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0} };
+		board = Board(blockCoords, Pengo(8, 6));
+		pengo = board.pengo;
+	}
+	else if (level == 4) {
+		short blockCoords[15][13] = { {0, 1, 0, 0, 4, 1, 0, 1, 0, 1, 0, 0, 0},
+									  {0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0},
+									  {0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0},
+									  {0, 1, 1, 1, 1, 1, 0, 3, 0, 1, 1, 1, 1},
+									  {0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0, 0},
+									  {0, 4, 0, 1, 0, 1, 1, 1, 0, 1, 0, 2, 0},
+									  {0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0},
+									  {0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 1, 3, 0},
+									  {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0},
+									  {0, 1, 0, 1, 0, 1, 0, 1, 0, 2, 0, 1, 0},
+									  {0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0},
+									  {0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0},
+									  {0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0},
+									  {1, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0, 2, 0},
+									  {4, 0, 0, 1, 0, 0, 0, 0, 3, 0, 0, 1, 0} };
+		board = Board(blockCoords, Pengo(8, 6));
+		pengo = board.pengo;
 	}
 }
 
@@ -51,14 +125,15 @@ void drawBoard() {
 		levelInitialized = true;
 		animationId++;
 		timeLeft = 200;
+		levelCleared = false;
 
-		initLevel(0);
-		turnEnemy(animationId);
-		enemyChangeStepPos(animationId);
+		initLevel(level);
+		glutTimerFunc(500, turnEnemy, animationId);
+		glutTimerFunc(500, enemyChangeStepPos,animationId);
 		glutTimerFunc(1000, timerTick, animationId);
 		glutTimerFunc(1000, diamondBlocksTogether, animationId);
 	}
-	WriteText::writeEverything(level, score, lives, timeLeft, gameOver);
+	WriteText::writeEverything(level, score, lives, timeLeft, gameOver, gameWon, levelCleared);
 	board.draw();
 }
 
@@ -67,6 +142,7 @@ void restartGame(unsigned char key) {
 		level = 0;
 		levelInitialized = false;
 		score = 0;
+		lives = 3;
 		gameOver = false;
 		gameWon = false;
 	}
@@ -135,9 +211,14 @@ void loadTextures() {
 	WriteText::numbers[9] = LoadTexture::file("textures/9.bmp");
 	WriteText::gameOver = LoadTexture::file("textures/GameOver.bmp");
 	WriteText::pressEnter = LoadTexture::file("textures/PressEnter.bmp");
+	WriteText::levelCleared = LoadTexture::file("textures/LevelCleared.bmp");
+	WriteText::gameWon = LoadTexture::file("textures/GameWon.bmp");
 }
 
 void turnPengo(int direction) {
+	if (gameWon || gameOver || levelCleared)
+		return;
+
 	if (pengo.moving || pengo.pushing || pengo.dead)
 		return;
 	pengo.orientation = direction;
@@ -601,6 +682,7 @@ void blockKillEnemies() {
 		if (abs((*enemyIterator).getPosX() - pushedBlock->getPosX()) < 0.75 && abs((*enemyIterator).getPosY() - pushedBlock->getPosY()) < 0.75) {
 			board.enemies.erase(enemyIterator);
 			score += 1000;
+			allEnemiesDefeated();
 			return;
 		}
 }
@@ -614,6 +696,7 @@ void pengoEnemyInteraction() {
 			if ((*enemyIterator).stunned) {
 				board.enemies.erase(enemyIterator);
 				score += 500;
+				allEnemiesDefeated();
 			}
 			else if (!pengo.indestructable) {
 				pengo.dead = true;
@@ -668,7 +751,7 @@ void timerTick(int animId) {
 		timeLeft--;
 		glutTimerFunc(1000, timerTick, animId);
 	}
-	else if (!pengo.dead) {
+	else if (!gameOver && !gameWon && !levelCleared) {
 		pengo.dead = true;
 		gameOver = true;
 		pengoDeadStepPos(0);
@@ -720,4 +803,24 @@ void destroyEverything() {
 		enemy.stunned = true;
 		enemy.sweeping = false;
 	}
+}
+
+void allEnemiesDefeated() {
+	if (board.enemies.empty()) {
+		levelCleared = true;
+		score += timeLeft * 10;
+		glutTimerFunc(5000, startNewLevel, animationId);
+	}
+}
+
+void startNewLevel(int animId) {
+	if (animId != animationId)
+		return;
+
+	if (level < 4) {
+		levelInitialized = false;
+		level++;
+	}
+	else
+		gameWon = true;
 }

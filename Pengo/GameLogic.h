@@ -29,3 +29,5 @@ void timerTick(int animId);
 void diamondBlocksTogether(int animId);
 void destroyEverything();
 void restartGame(unsigned char key);
+void allEnemiesDefeated();
+void startNewLevel(int animId);
