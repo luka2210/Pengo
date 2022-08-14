@@ -124,7 +124,7 @@ void drawBoard() {
 		
 		levelInitialized = true;
 		animationId++;
-		timeLeft = 200;
+		timeLeft = 100;
 		levelCleared = false;
 
 		initLevel(level);
@@ -604,8 +604,8 @@ int enemyNewOrientation(Enemy* enemy) {
 }
 
 int sweepingEnemyNewOrientation(Enemy* enemy) {
-	int coinToss = rand() % 3;
-	if (coinToss == 2)
+	int coinToss = rand() % 4;
+	if (coinToss == 3)
 		return rand() % 4 + 1;
 
 	if (abs(enemy->i - pengo.i) < abs(enemy->j - pengo.j)) {
