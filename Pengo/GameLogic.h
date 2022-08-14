@@ -25,5 +25,4 @@ void pengoRespawn(int useless);
 void pengoNoLongerIndestructable(int useless);
 void pengoIndestructableStepPos(int useless);
 void pengoDeadStepPos(int useless);
-void drawText(double posX, double posY, std::string text, int number);
 void timerTick(int animId);

@@ -11,7 +11,7 @@ bool levelInitialized = false;
 int score = 0;
 int animationId = 0;
 int lives = 3;
-int timeLeft = 100;
+int timeLeft = 0;
 
 Board board = Board();
 Pengo& pengo = board.pengo;
@@ -44,24 +44,18 @@ void initLevel(int level) {
 void drawBoard() {
 	if (!levelInitialized) {
 		srand(time(NULL));
+		
 		levelInitialized = true;
 		animationId++;
+		timeLeft = 200;
+
 		initLevel(1);
 		turnEnemy(animationId);
 		enemyChangeStepPos(animationId);
-		timeLeft = 100;
+		glutTimerFunc(1000, timerTick, animationId);
 	}
 	board.draw();
-	drawText(0.0, 0.0, "LEVEL: ", level + 1);
-}
-
-void drawText(double posX, double posY, std::string text, int number) {
-	text.append(std::to_string(number));
-	glColor3f(1.0, 1.0, 1.0);
-	glRasterPos2f(posX, posY);
-	glScalef(1.5, 1.5, 0.0);
-	for (char ch : text) 
-		glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, ch);
+	WriteText::writeEverything(level, score, lives, timeLeft);
 }
 
 void loadTextures() {
@@ -364,7 +358,7 @@ void blockPush(int direction) {
 void checkIfBlockShouldBeDestroyed() {
 	if (!pushedBlock->moving && !pushedBlock->diamond) {
 		pushedBlock->destroyed = true;
-		score += 100;
+		score += 30;
 		blockDestroyedAnimation(pushedBlock->id);
 	}
 	else 
