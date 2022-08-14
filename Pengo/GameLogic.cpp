@@ -17,23 +17,24 @@ Board board = Board();
 Pengo& pengo = board.pengo;
 Block* pushedBlock = nullptr;
 
+
 void initLevel(int level) {
 	switch (level) {
 	case 1:
 		short blockCoords[15][13] = { {0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0},
-									 {0, 1, 0, 1, 1, 1, 3, 1, 1, 2, 0, 1, 0},
+									 {0, 1, 0, 1, 1, 1, 3, 1, 1, 1, 0, 1, 0},
 									 {0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0},
 									 {0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0},
 									 {0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0},
-									 {0, 1, 0, 1, 1, 2, 1, 1, 1, 1, 0, 1, 0},
+									 {0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0},
 									 {0, 1, 3, 0, 0, 1, 0, 0, 0, 1, 3, 1, 0},
 									 {0, 1, 1, 1, 0, 1, 1, 1, 0, 1, 0, 1 ,0},
 									 {0, 1, 0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0},
 									 {0, 1, 0, 1, 0, 1, 0, 1, 1, 1, 0, 1, 0},
 									 {0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0},
-									 {0, 1, 0, 1, 1, 1, 0, 1, 0, 1, 1, 1, 0},
-									 {0, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0},
-									 {0, 1, 0, 2, 0, 1, 1, 1, 1, 1, 0, 1, 0},
+									 {0, 1, 0, 2, 2, 0, 0, 1, 0, 1, 1, 1, 0},
+									 {0, 1, 0, 0, 0, 2, 0, 1, 0, 0, 0, 1, 0},
+									 {0, 1, 0, 1, 0, 1, 1, 1, 1, 1, 0, 1, 0},
 									 {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0} };
 		board = Board(blockCoords, Pengo(8, 6));
 		pengo = board.pengo;
@@ -53,6 +54,7 @@ void drawBoard() {
 		turnEnemy(animationId);
 		enemyChangeStepPos(animationId);
 		glutTimerFunc(1000, timerTick, animationId);
+		glutTimerFunc(1000, diamondBlocksTogether, animationId);
 	}
 	board.draw();
 	WriteText::writeEverything(level, score, lives, timeLeft);
@@ -592,7 +594,7 @@ void pengoEnemyInteraction() {
 
 void pengoRespawn(int useless) {
 	for (Block& block : board.blocks) 
-		if (block.i == 8 && block.j == 6) {
+		if (block.i == 8 && block.j == 6 && !block.diamond) {
 			block.destroyed = true;
 			blockDestroyedAnimation(block.id);
 		}
@@ -628,5 +630,52 @@ void timerTick(int animId) {
 	if (timeLeft > 0) {
 		timeLeft--;
 		glutTimerFunc(1000, timerTick, animId);
+	}
+}
+
+void diamondBlocksTogether(int animId) {
+	if (animId != animationId)
+		return;
+
+	bool flag;
+	for (Block& block1 : board.blocks) {
+		if (!block1.diamond)
+			continue;
+		flag = false;
+		if (block1.moving)
+			break;
+		for (Block& block2 : board.blocks) {
+			if (!block2.diamond)
+				continue;
+			if (block1.i == block2.i && abs(block1.j - block2.j) == 1) {
+				flag = true;
+				break;
+			}
+			if (block1.j == block2.j && abs(block1.i - block2.i) == 1) {
+				flag = true;
+				break;
+			}
+		}
+		if (!flag)
+			break;
+	}
+
+	if (!flag)
+		glutTimerFunc(1000, diamondBlocksTogether, animId);
+	else
+		destroyEverything();
+}
+
+void destroyEverything() {
+	score += 5000;
+	for (Block& block : board.blocks)
+		if (!block.diamond) {
+			score += 30;
+			block.destroyed = true;
+			blockDestroyedAnimation(block.id);
+		}
+	for (Enemy& enemy : board.enemies) {
+		enemy.stunned = true;
+		enemy.sweeping = false;
 	}
 }

@@ -26,3 +26,5 @@ void pengoNoLongerIndestructable(int useless);
 void pengoIndestructableStepPos(int useless);
 void pengoDeadStepPos(int useless);
 void timerTick(int animId);
+void diamondBlocksTogether(int animId);
+void destroyEverything();

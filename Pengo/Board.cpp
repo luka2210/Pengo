@@ -18,7 +18,7 @@ Board::Board(short blockCoords[15][13], Pengo pengo) {
 		for (int j = 0; j < 13; j++)
 			if (blockCoords[i][j] == 1)
 				blocks.push_back(Block(14 - i, j, false));
-			else if (blockCoords[i][j] == 2)
+			else if (blockCoords[i][j] == 2) 
 				blocks.push_back(Block(14 - i, j, true));
 			else if (blockCoords[i][j] == 3)
 				enemies.push_back(Enemy(14 - i, j, false));
