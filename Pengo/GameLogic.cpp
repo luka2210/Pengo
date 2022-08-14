@@ -451,42 +451,61 @@ void turnEnemy(int animId) {
 
 int enemyNewOrientation(Enemy* enemy) {
 
-	int newOrientation = rand() % 4 + 1;
+	int odds[4] = { 3, 3, 3, 3 };
+	odds[enemy->orientation - 1] = 6;
+	odds[(enemy->orientation + 1) % 4] = 1;
 
-	switch (enemy->orientation) {
-	case 1:
-		if (enemy->j == 0)
-			return newOrientation;
+	if (enemy->j == 0)
+		odds[0] = 0;
+	else
 		for (Block& block : board.blocks)
-			if (block.i == enemy->i && block.j == enemy->j - 1)
-				return newOrientation;
-		break;
-	case 2:
-		if (enemy->i == 0)
-			return newOrientation;
+			if (block.i == enemy->i && block.j == enemy->j - 1) {
+				odds[0] = 0;
+				break;
+			}
+
+	if (enemy->i == 0)
+		odds[1] = 0;
+	else
 		for (Block& block : board.blocks)
-			if (block.j == enemy->j && block.i == enemy->i - 1)
-				return newOrientation;
-		break;
-	case 3:
-		if (enemy->j == 12)
-			return newOrientation;
+			if (block.j == enemy->j && block.i == enemy->i - 1) {
+				odds[1] = 0;
+				break;
+			}
+
+	if (enemy->j == 12)
+		odds[2] = 0;
+	else
 		for (Block& block : board.blocks)
-			if (block.i == enemy->i && block.j == enemy->j + 1)
-				return newOrientation;
-		break;
-	case 4:
-		if (enemy->i == 14)
-			return newOrientation;
+			if (block.i == enemy->i && block.j == enemy->j + 1) {
+				odds[2] = 0;
+				break;
+			}
+
+	if (enemy->i == 14)
+		odds[3] = 0;
+	else
 		for (Block& block : board.blocks)
-			if (block.j == enemy->j && block.i == enemy->i + 1)
-				return newOrientation;
-		break;
-	default:
-		return enemy->orientation;
+			if (block.j == enemy->j && block.i == enemy->i + 1) {
+				odds[3] = 0;
+				break;
+			}
+
+	int cumsum = 0;
+	for (int i = 0; i < 4; i++)
+		cumsum += odds[i];
+
+	if (cumsum == 0)
+		return 2;
+
+	int totalOdds = rand() % cumsum;
+
+	for (int i = 0; i < 4; i++) {
+		totalOdds -= odds[i];
+		if (totalOdds < 0)
+			return i + 1;
 	}
-	return enemy->orientation;
-	return newOrientation;
+	return 2;
 }
 
 int sweepingEnemyNewOrientation(Enemy* enemy) {
