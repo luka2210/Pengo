@@ -15,10 +15,10 @@ int timeLeft = 0;
 bool gameOver = false;
 bool gameWon = false;
 bool levelCleared = false;
+int pushedBlockDirection = 0;
 
 Board board = Board();
 Pengo& pengo = board.pengo;
-Block* pushedBlock = nullptr;
 
 void initLevel(int level) {
 	if (level == 0) {
@@ -305,8 +305,8 @@ void pushPengo() {
 					return;
 				if (!block.destroyed) {
 					pengoPushingAnimation(0);
-					pushedBlock = &block;
-					blockPush(pengo.orientation);
+					pushedBlockDirection = pengo.orientation;
+					blockPush(block.id);
 				}
 				return;
 			}
@@ -322,8 +322,8 @@ void pushPengo() {
 					return;
 				if (!block.destroyed) {
 					pengoPushingAnimation(0);
-					pushedBlock = &block;
-					blockPush(pengo.orientation);
+					pushedBlockDirection = pengo.orientation;
+					blockPush(block.id);
 				}
 				return;
 			}
@@ -339,8 +339,8 @@ void pushPengo() {
 					return;
 				if (!block.destroyed) {
 					pengoPushingAnimation(0);
-					pushedBlock = &block;
-					blockPush(pengo.orientation);
+					pushedBlockDirection = pengo.orientation;
+					blockPush(block.id);
 				}
 				return;
 			}
@@ -356,8 +356,8 @@ void pushPengo() {
 					return;
 				if (!block.destroyed) {
 					pengoPushingAnimation(0);
-					pushedBlock = &block;
-					blockPush(pengo.orientation);
+					pushedBlockDirection = pengo.orientation;
+					blockPush(block.id);
 				}
 				return;
 			}
@@ -370,89 +370,93 @@ void pushPengo() {
 void pengoPushingAnimation(int stopFlag) {
 	if (stopFlag == 0) {
 		pengo.pushing = true;
-		glutTimerFunc(500, pengoPushingAnimation, 1);
+		glutTimerFunc(600, pengoPushingAnimation, 1);
 	}
 	else
 		pengo.pushing = false;
 }
 
-void blockPush(int direction) {
+void blockPush(int id) {
 	//ako je blok gurnut u smeru do susednog bloka i ako nije dijamant blok onda ga unisti
-	pushedBlock->orientation = direction;
-	switch (pushedBlock->orientation) {
-	case 1:
-		if (pushedBlock->j == 0) {
-			checkIfBlockShouldBeDestroyed();
-			return;
-		}
-		for (Block& block : board.blocks)
-			if (block.i == pushedBlock->i && block.j == pushedBlock->j - 1) {
-				checkIfBlockShouldBeDestroyed();
-				return;
+	for (std::vector<Block>::iterator blockIterator = board.blocks.begin(); blockIterator < board.blocks.end(); blockIterator++) 
+		if ((*blockIterator).id == id)  {
+			Block* pushedBlock = &(*blockIterator);
+			pushedBlock->orientation = pushedBlockDirection;
+			switch (pushedBlock->orientation) {
+			case 1:
+				if (pushedBlock->j == 0) {
+					checkIfBlockShouldBeDestroyed(pushedBlock);
+					return;
+				}
+				for (Block& block : board.blocks)
+					if (block.i == pushedBlock->i && block.j == pushedBlock->j - 1) {
+						checkIfBlockShouldBeDestroyed(pushedBlock);
+						return;
+					}
+				break;
+			case 2:
+				if (pushedBlock->i == 0) {
+					checkIfBlockShouldBeDestroyed(pushedBlock);
+					return;
+				}
+				for (Block& block : board.blocks)
+					if (block.j == pushedBlock->j && block.i == pushedBlock->i - 1) {
+						checkIfBlockShouldBeDestroyed(pushedBlock);
+						return;
+					}
+				break;
+			case 3:
+				if (pushedBlock->j == 12) {
+					checkIfBlockShouldBeDestroyed(pushedBlock);
+					return;
+				}
+				for (Block& block : board.blocks)
+					if (block.i == pushedBlock->i && block.j == pushedBlock->j + 1) {
+						checkIfBlockShouldBeDestroyed(pushedBlock);
+						return;
+					}
+				break;
+			case 4:
+				if (pushedBlock->i == 14) {
+					checkIfBlockShouldBeDestroyed(pushedBlock);
+					return;
+				}
+				for (Block& block : board.blocks)
+					if (block.j == pushedBlock->j && block.i == pushedBlock->i + 1) {
+						checkIfBlockShouldBeDestroyed(pushedBlock);
+						return;
+					}
+				break;
+			default:
+				break;
 			}
-		break;
-	case 2:
-		if (pushedBlock->i == 0) {
-			checkIfBlockShouldBeDestroyed();
-			return;
-		}
-		for (Block& block : board.blocks)
-			if (block.j == pushedBlock->j && block.i == pushedBlock->i - 1) {
-				checkIfBlockShouldBeDestroyed();
-				return;
-			}
-		break;
-	case 3:
-		if (pushedBlock->j == 12) {
-			checkIfBlockShouldBeDestroyed();
-			return;
-		}
-		for (Block& block : board.blocks)
-			if (block.i == pushedBlock->i && block.j == pushedBlock->j + 1) {
-				checkIfBlockShouldBeDestroyed();
-				return;
-			}
-		break;
-	case 4:
-		if (pushedBlock->i == 14) {
-			checkIfBlockShouldBeDestroyed();
-			return;
-		}
-		for (Block& block : board.blocks)
-			if (block.j == pushedBlock->j && block.i == pushedBlock->i + 1) {
-				checkIfBlockShouldBeDestroyed();
-				return;
-			}
-		break;
-	default:
-			break;
-	}
 
-	pushedBlock->moving = true;
-	pushedBlock->distance += pushedBlock->speed;
-	blockKillEnemies();
-	if (pushedBlock->distance >= 1) {
-		switch (pushedBlock->orientation) {
-		case 1:
-			pushedBlock->j--;
-			break;
-		case 2:
-			pushedBlock->i--;
-			break;
-		case 3:
-			pushedBlock->j++;
-			break;
-		case 4:
-			pushedBlock->i++;
-			break;
+			pushedBlock->moving = true;
+			pushedBlock->distance += pushedBlock->speed;
+			blockKillEnemies(pushedBlock);
+			if (pushedBlock->distance >= 1) {
+				switch (pushedBlock->orientation) {
+				case 1:
+					pushedBlock->j--;
+					break;
+				case 2:
+					pushedBlock->i--;
+					break;
+				case 3:
+					pushedBlock->j++;
+					break;
+				case 4:
+					pushedBlock->i++;
+					break;
+				}
+				//pushedBlock->moving = false;
+				pushedBlock->distance = 0;
+			}
+			glutTimerFunc(15, blockPush, id);
 		}
-		//pushedBlock->moving = false;
-		pushedBlock->distance = 0;
-	}
-	glutTimerFunc(15, blockPush, direction);
 }
 
-void checkIfBlockShouldBeDestroyed() {
+void checkIfBlockShouldBeDestroyed(Block *pushedBlock) {
 	if (!pushedBlock->moving && !pushedBlock->diamond) {
 		pushedBlock->destroyed = true;
 		score += 30;
@@ -681,7 +685,7 @@ void enemyChangeStepPos(int animId) {
 	glutTimerFunc(250, enemyChangeStepPos, animId);
 }
 
-void blockKillEnemies() {
+void blockKillEnemies(Block *pushedBlock) {
 	for (auto enemyIterator = board.enemies.begin(); enemyIterator < board.enemies.end(); enemyIterator++)
 		if (abs((*enemyIterator).getPosX() - pushedBlock->getPosX()) < 0.75 && abs((*enemyIterator).getPosY() - pushedBlock->getPosY()) < 0.75) {
 			board.enemies.erase(enemyIterator);
@@ -748,7 +752,7 @@ void pengoDeadStepPos(int useless) {
 }
 
 void timerTick(int animId) {
-	if (animId != animationId)
+	if (gameWon || gameOver || levelCleared || animId != animationId)
 		return;
 
 	if (timeLeft > 0) {
