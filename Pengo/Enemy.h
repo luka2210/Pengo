@@ -21,6 +21,8 @@ public:
 	double distance = 0;
 	double speed;
 	unsigned int id;
+
+
 	Enemy();
 	Enemy(int i, int j, bool sweeping);
 	unsigned int pickImage();

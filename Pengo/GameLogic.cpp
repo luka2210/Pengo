@@ -682,7 +682,7 @@ void enemyChangeStepPos(int animId) {
 	for (Enemy& enemy : board.enemies)
 		enemy.stepPos = !enemy.stepPos;
 
-	glutTimerFunc(250, enemyChangeStepPos, animId);
+	glutTimerFunc(200, enemyChangeStepPos, animId);
 }
 
 void blockKillEnemies(Block *pushedBlock) {
